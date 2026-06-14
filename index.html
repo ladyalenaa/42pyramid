@@ -92,7 +92,7 @@ input:focus{outline:none;border-color:#7F77DD}
 }
 
 </style>
-<script type="text/javascript" nonce="d4846a50cf14409897ff92be5ab" src="//injections.adguard.org?ts=1781465958440&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000dae871fdafd7e8e461e064d8%26fn%3Dmain_updated.html%26cd%3Dattachment%26ts%3D494853%26p%3Dfs%26cid%3D1%26sig%3D444a3675d84e01c289e905d0ccdab3581f271f67efcdf19c9567b653db46d893%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="d4846a50cf14409897ff92be5ab" src="//injections.adguard.org?ts=1781465958440&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script></head>
+<script type="text/javascript" nonce="d4846a50cf14409897ff92be5ab" src="//injections.adguard.org?ts=1781475780815&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_0000000055d071f8aa69bdae7b1da016%26fn%3Dindex_modified.html%26cd%3Dattachment%26ts%3D494854%26p%3Dfs%26cid%3D1%26sig%3D45bffa6a33dc69a511a1d77cc9f410317b96da3d01ade8a2d0d9eb2bea5eff42%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="d4846a50cf14409897ff92be5ab" src="//injections.adguard.org?ts=1781475780815&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="d4846a50cf14409897ff92be5ab" src="//injections.adguard.org?ts=1781465958440&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000dae871fdafd7e8e461e064d8%26fn%3Dmain_updated.html%26cd%3Dattachment%26ts%3D494853%26p%3Dfs%26cid%3D1%26sig%3D444a3675d84e01c289e905d0ccdab3581f271f67efcdf19c9567b653db46d893%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="d4846a50cf14409897ff92be5ab" src="//injections.adguard.org?ts=1781465958440&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script></head>
 <body>
 <div class="app">
   <div class="brand">Авторская система самопознания</div>
@@ -215,7 +215,11 @@ function calcAge(yyyy,mm,dd,yr,curMo){
 }
 function pY(base,yyyy,mm,dd,yr){
   var age=calcAge(yyyy,mm,dd,yr,new Date().getMonth()+1);
-  var v=base+age;while(v>42)v-=42;return Math.max(1,v);
+  // Активная ячейка = (base + возраст) - 42
+  var v=(base+age)-42;
+  while(v>42)v-=42;
+  if(v<1)v=1;
+  return v;
 }
 function pM(base,yyyy,mm,dd,yr,mo){
   var age=calcAge(yyyy,mm,dd,yr,mo);
