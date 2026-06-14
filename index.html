@@ -91,23 +91,8 @@ input:focus{outline:none;border-color:#7F77DD}
 .btn{font-size:14px}
 }
 
-
-/* === Unified desktop/mobile date pickers === */
-.desktop-date{display:block}
-.mobile-date{display:none}
-@media (max-width:768px){
-  .desktop-date{display:none}
-  .mobile-date{display:block}
-}
-.wheel-picker-mobile{display:flex;height:120px;background:#0f0c1a;border:1px solid #3a3060;border-radius:8px;position:relative;overflow:hidden}
-.wheel-picker-mobile:before{content:'';position:absolute;top:40px;left:0;right:0;height:40px;background:rgba(127,119,221,.15);pointer-events:none;border-top:1px solid #7F77DD;border-bottom:1px solid #7F77DD;z-index:2}
-.wheel-col{flex:1;height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;text-align:center;padding:40px 0}
-.wheel-col::-webkit-scrollbar{display:none}
-.wheel-item{height:40px;line-height:40px;scroll-snap-align:center;color:#8878aa}
-.wheel-item.active{color:#fff;font-weight:700}
-
 </style>
-<script type="text/javascript" nonce="d4846a50cf14409897ff92be5ab" src="//injections.adguard.org?ts=1781465958440&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000007a9871fdb3df2e6f7e119e45%26fn%3Dindex.html%26cd%3Dattachment%26ts%3D494853%26p%3Dfs%26cid%3D1%26sig%3D5e5187c2e4b1b705cbce0ca029ade5f77648c79437fbc23375d5e99303492e5c%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="d4846a50cf14409897ff92be5ab" src="//injections.adguard.org?ts=1781465958440&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="d4846a50cf14409897ff92be5ab" src="//injections.adguard.org?ts=1781465958440&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000dae871fdafd7e8e461e064d8%26fn%3Dmain_updated.html%26cd%3Dattachment%26ts%3D494853%26p%3Dfs%26cid%3D1%26sig%3D444a3675d84e01c289e905d0ccdab3581f271f67efcdf19c9567b653db46d893%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="d4846a50cf14409897ff92be5ab" src="//injections.adguard.org?ts=1781465958440&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script></head>
+<script type="text/javascript" nonce="d4846a50cf14409897ff92be5ab" src="//injections.adguard.org?ts=1781465958440&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000dae871fdafd7e8e461e064d8%26fn%3Dmain_updated.html%26cd%3Dattachment%26ts%3D494853%26p%3Dfs%26cid%3D1%26sig%3D444a3675d84e01c289e905d0ccdab3581f271f67efcdf19c9567b653db46d893%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="d4846a50cf14409897ff92be5ab" src="//injections.adguard.org?ts=1781465958440&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script></head>
 <body>
 <div class="app">
   <div class="brand">Авторская система самопознания</div>
@@ -116,28 +101,14 @@ input:focus{outline:none;border-color:#7F77DD}
 
   <div class="form-wrap">
     <div class="fg">
-      
-<div class="ff">
+      <div class="ff">
 <label>Дата рождения</label>
-
-<div class="desktop-date">
 <div class="wheel-picker" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
 <select id="day"></select>
 <select id="month"></select>
 <select id="year"></select>
 </div>
 </div>
-
-<div class="mobile-date">
-<div class="wheel-picker-mobile">
-<div class="wheel-col" id="w-dd"></div>
-<div class="wheel-col" id="w-mm"></div>
-<div class="wheel-col" id="w-yyyy"></div>
-</div>
-</div>
-
-</div>
-
       <div><label>Город рождения</label><input type="text" id="city" placeholder=""></div>
       <div><label>Имя</label><input type="text" id="iname" placeholder=""></div>
       <div class="ff"><button class="btn" onclick="go()">✨ Рассчитать пирамиду</button></div>
@@ -596,33 +567,5 @@ for(let yr=currentYear;yr>=1900;yr--){
 
 
 </script>
-
-<script>
-function initUnifiedWheel(){
- const months=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
- const d=document.getElementById('w-dd');
- if(!d) return;
- let dh='',mh='',yh='';
- for(let i=1;i<=31;i++) dh+=`<div class="wheel-item" data-v="${i}">${i}</div>`;
- for(let i=1;i<=12;i++) mh+=`<div class="wheel-item" data-v="${i}">${months[i-1]}</div>`;
- let cy=new Date().getFullYear();
- for(let i=cy;i>=1920;i--) yh+=`<div class="wheel-item" data-v="${i}">${i}</div>`;
- document.getElementById('w-dd').innerHTML=dh;
- document.getElementById('w-mm').innerHTML=mh;
- document.getElementById('w-yyyy').innerHTML=yh;
-
- ['w-dd','w-mm','w-yyyy'].forEach(id=>{
-   const col=document.getElementById(id);
-   col.addEventListener('scroll',()=>{
-      const items=col.querySelectorAll('.wheel-item');
-      const idx=Math.round(col.scrollTop/40);
-      items.forEach((el,i)=>el.classList.toggle('active',i===idx));
-   });
-   setTimeout(()=>col.dispatchEvent(new Event('scroll')),50);
- });
-}
-document.addEventListener('DOMContentLoaded',initUnifiedWheel);
-</script>
-
 </body>
 </html>
