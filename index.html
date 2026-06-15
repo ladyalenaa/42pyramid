@@ -83,7 +83,15 @@ select option{background:#1a1530}
 .cpyr{display:flex;flex-direction:column;align-items:center;gap:3px}
 .compat-section{background:#1a1530;border-radius:10px;padding:14px;border:1px solid #2d2550;margin-bottom:10px}
 .compat-section h4{font-size:13px;color:#c4b8ff;font-weight:600;margin-bottom:8px}
-@media(max-width:600px){
+/* TAB SWITCHER */
+.tab-wrap{margin-bottom:20px}
+.tab-track{position:relative;display:flex;background:#1a1530;border-radius:12px;padding:4px;border:1px solid #2d2550}
+.tab-slider{position:absolute;top:4px;left:4px;height:calc(100% - 8px);border-radius:9px;background:linear-gradient(135deg,#7F77DD,#534AB7);transition:transform .3s cubic-bezier(.4,0,.2,1),width .3s cubic-bezier(.4,0,.2,1);box-shadow:0 2px 12px rgba(127,119,221,.4);z-index:0}
+.tab-btn{flex:1;position:relative;z-index:1;padding:11px 8px;border:none;background:transparent;color:#8878aa;font-size:14px;font-weight:500;cursor:pointer;border-radius:9px;transition:color .25s;white-space:nowrap}
+.tab-btn.active{color:#fff;font-weight:600}
+.panel{animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+/* end tabs */
   .fg,.grid2,.grid3,.pg,.compat-pair{grid-template-columns:1fr}
   .ff{grid-column:1}
   .mg{grid-template-columns:repeat(3,1fr)}
@@ -103,62 +111,72 @@ select option{background:#1a1530}
   <h1>🔺 Пирамида 42</h1>
   <p class="sub">✨ Персональная карта Леди Алёны ✨</p>
 
-  <div class="form-wrap">
-    <div class="fg">
-      <div class="ff">
-        <label>Дата рождения</label>
-        <div style="display:grid;grid-template-columns:1fr 2fr 1.3fr;gap:8px">
-          <select id="day"><option value="">День</option></select>
-          <select id="month"><option value="">Месяц</option></select>
-          <select id="year"><option value="">Год</option></select>
-        </div>
-      </div>
-      <div><label>Город рождения</label><input type="text" id="city" placeholder=" "></div>
-      <div><label>Имя</label><input type="text" id="iname" placeholder=" "></div>
-      <div class="ff"><button class="btn" onclick="go()">✨ Рассчитать пирамиду</button></div>
+  <!-- TAB SWITCHER -->
+  <div class="tab-wrap">
+    <div class="tab-track">
+      <div class="tab-slider" id="tabSlider"></div>
+      <button class="tab-btn active" id="tab1" onclick="switchTab(0)">Персональная пирамида</button>
+      <button class="tab-btn" id="tab2" onclick="switchTab(1)">Пирамида совместимости</button>
     </div>
   </div>
 
-  <div class="res" id="res">
-    <div class="base-row" id="br"></div>
-    <div class="lg" id="lg"></div>
-    <div class="pw"><div class="pyr" id="pyr"></div></div>
-    <div id="out"></div>
+  <!-- ПАНЕЛЬ 1: ПЕРСОНАЛЬНАЯ -->
+  <div class="panel" id="panel1">
+    <div class="form-wrap">
+      <div class="fg">
+        <div class="ff">
+          <label>Дата рождения</label>
+          <div style="display:grid;grid-template-columns:1fr 2fr 1.3fr;gap:8px">
+            <select id="day"><option value="">День</option></select>
+            <select id="month"><option value="">Месяц</option></select>
+            <select id="year"><option value="">Год</option></select>
+          </div>
+        </div>
+        <div><label>Город рождения</label><input type="text" id="city" placeholder=" "></div>
+        <div><label>Имя</label><input type="text" id="iname" placeholder=" "></div>
+        <div class="ff"><button class="btn" onclick="go()">✨ Рассчитать пирамиду</button></div>
+      </div>
+    </div>
+    <div class="res" id="res">
+      <div class="base-row" id="br"></div>
+      <div class="lg" id="lg"></div>
+      <div class="pw"><div class="pyr" id="pyr"></div></div>
+      <div id="out"></div>
+    </div>
   </div>
 
-  <!-- СОВМЕСТИМОСТЬ -->
-  <div id="compat-section" style="display:none;margin-top:30px">
-    <p class="sect" style="margin-top:0">🔮 Пирамида совместимости</p>
-    <div class="compat-form">
+  <!-- ПАНЕЛЬ 2: СОВМЕСТИМОСТЬ -->
+  <div class="panel" id="panel2" style="display:none">
+    <div class="form-wrap">
       <div class="compat-pair">
         <div class="compat-person">
-          <h4>Человек А</h4>
+          <h4>Партнёр 1</h4>
           <label>День / Месяц / Год</label>
-          <div style="display:grid;grid-template-columns:1fr 2fr 1.3fr;gap:6px;margin-bottom:6px">
+          <div style="display:grid;grid-template-columns:1fr 2fr 1.3fr;gap:6px;margin-bottom:8px">
             <select id="a_day"><option value="">День</option></select>
             <select id="a_month"><option value="">Месяц</option></select>
             <select id="a_year"><option value="">Год</option></select>
           </div>
           <label>Город рождения</label>
-          <input type="text" id="a_city" placeholder=" ">
+          <input type="text" id="a_city" placeholder=" " style="margin-bottom:8px">
           <label>Имя</label>
-          <input type="text" id="a_name" placeholder=" ">
+          <input type="text" id="a_name" placeholder="">
         </div>
         <div class="compat-person">
-          <h4>Человек Б</h4>
+          <h4>Партнёр 2</h4>
           <label>День / Месяц / Год</label>
-          <div style="display:grid;grid-template-columns:1fr 2fr 1.3fr;gap:6px;margin-bottom:6px">
+          <div style="display:grid;grid-template-columns:1fr 2fr 1.3fr;gap:6px;margin-bottom:8px">
             <select id="b_day"><option value="">День</option></select>
             <select id="b_month"><option value="">Месяц</option></select>
             <select id="b_year"><option value="">Год</option></select>
           </div>
           <label>Город рождения</label>
-          <input type="text" id="b_city" placeholder=" ">
+          <input type="text" id="b_city" placeholder=" " style="margin-bottom:8px">
           <label>Имя</label>
           <input type="text" id="b_name" placeholder=" ">
         </div>
       </div>
-      <button class="btn" onclick="calcCompat()">💫 Рассчитать совместимость</button>
+      <button class="btn" style="margin-top:12px" onclick="calcCompat()">💫 Рассчитать совместимость</button>
     </div>
     <div id="compat-out"></div>
   </div>
@@ -168,7 +186,34 @@ select option{background:#1a1530}
 <script>
 var MO_NAMES=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
 
-// Заполняем все селекты дат
+// === TAB SWITCHER ===
+var currentTab=0;
+function switchTab(idx){
+  currentTab=idx;
+  var btns=document.querySelectorAll('.tab-btn');
+  var panels=[document.getElementById('panel1'),document.getElementById('panel2')];
+  var slider=document.getElementById('tabSlider');
+  btns.forEach(function(b,i){b.classList.toggle('active',i===idx);});
+  // move slider
+  var trackW=document.querySelector('.tab-track').offsetWidth-8;
+  slider.style.width=(trackW/2)+'px';
+  slider.style.transform='translateX('+(idx*(trackW/2))+'px)';
+  // show panel
+  panels.forEach(function(p,i){
+    if(i===idx){p.style.display='block';}
+    else{p.style.display='none';}
+  });
+}
+
+window.addEventListener('load',function(){
+  // Init slider
+  setTimeout(function(){switchTab(0);},10);
+  // Fill date selects
+  fillDateSelects('');
+  fillDateSelects('a');
+  fillDateSelects('b');
+});
+
 function fillDateSelects(prefix){
   var ids=prefix?[prefix+'_day',prefix+'_month',prefix+'_year']:['day','month','year'];
   var dSel=document.getElementById(ids[0]);
@@ -176,23 +221,16 @@ function fillDateSelects(prefix){
   var ySel=document.getElementById(ids[2]);
   for(var i=1;i<=31;i++){var o=document.createElement('option');o.value=i;o.textContent=i;dSel.appendChild(o);}
   MO_NAMES.forEach(function(nm,idx){var o=document.createElement('option');o.value=idx+1;o.textContent=nm;mSel.appendChild(o);});
-  var cy=new Date().getFullYear();
-  for(var y=cy;y>=1900;y--){var o=document.createElement('option');o.value=y;o.textContent=y;ySel.appendChild(o);}
+  for(var y=2142;y>=1900;y--){var o=document.createElement('option');o.value=y;o.textContent=y;ySel.appendChild(o);}
 }
-
-window.addEventListener('load',function(){
-  fillDateSelects('');
-  fillDateSelects('a');
-  fillDateSelects('b');
-});
 
 // === ДАННЫЕ ===
 var LV=[
   {nums:[1,2,3,4,9,5,6,7,8],  ch:'Муладхара',    co:'#c42020',aura:'красный'},
-  {nums:[10,11,12,13,14,15,16,17],ch:'Свадхистана',co:'#c05010',aura:'оранжевый'},
+  {nums:[10,11,12,13,14,15,16,17],ch:'Свадхистхана',co:'#c05010',aura:'оранжевый'},
   {nums:[18,19,20,24,21,22,23],ch:'Манипура',     co:'#b88008',aura:'жёлтый'},
   {nums:[25,26,27,28,29,30],   ch:'Анахата',      co:'#1e6e0e',aura:'зелёный'},
-  {nums:[31,32,35,33,34],      ch:'Вишудха',     co:'#0e80a8',aura:'голубой'},
+  {nums:[31,32,35,33,34],      ch:'Вишуддха',     co:'#0e80a8',aura:'голубой'},
   {nums:[36,37,38,39],         ch:'Аджна',        co:'#1040a8',aura:'синий'},
   {nums:[40,42,41],            ch:'Сахасрара',    co:'#5820a8',aura:'фиолетовый'}
 ];
@@ -251,11 +289,11 @@ function calcAge(yyyy,mm,dd,yr,curMo){
 // Активная ячейка = base + возраст (если <1 → 1, если >42 → вычитаем 42)
 function pY(base,yyyy,mm,dd,yr){
   var age=calcAge(yyyy,mm,dd,yr,new Date().getMonth()+1);
-  var v=base+age;while(v>42)v-=42;if(v<1)v=1;return v;
+  var v=base+age-42;while(v>42)v-=42;if(v<1)v=1;return v;
 }
 function pM(base,yyyy,mm,dd,yr,mo){
   var age=calcAge(yyyy,mm,dd,yr,mo);
-  var v=base+age+mo;while(v>42)v-=42;if(v<1)v=1;return v;
+  var v=base+age+mo-42;while(v>42)v-=42;if(v<1)v=1;return v;
 }
 
 function addTip(cell,n,v){
@@ -300,11 +338,14 @@ function go(){
   G_VALS=vals;
 
   document.getElementById('res').style.display='block';
-  document.getElementById('compat-section').style.display='block';
   document.getElementById('res').scrollIntoView({behavior:'smooth',block:'start'});
 
   document.getElementById('br').innerHTML='Базовое число: <strong>'+base+'</strong><br><span style="font-size:12px">дата ('+B.sd+') + город «'+city+'» ('+B.sc+') + имя «'+name+'» ('+B.sn+')</span>';
-  document.getElementById('lg').innerHTML=LV.map(function(l){return '<div class="li"><div class="ld" style="background:'+l.co+'"></div><span>'+l.ch+'</span></div>';}).join('');
+  document.getElementById('lg').innerHTML=LV.map(function(l){
+    // Правильные полные названия для легенды
+    var fullNames={'Муладхара':'Муладхара','Свадхистхана':'Свадхистхана','Манипура':'Манипура','Анахата':'Анахата','Вишуддха':'Вишуддха','Аджна':'Аджна','Сахасрара':'Сахасрара'};
+    return '<div class="li"><div class="ld" style="background:'+l.co+'"></div><span>'+(fullNames[l.ch]||l.ch)+'</span></div>';
+  }).join('');
 
   buildPyramid(vals,base,document.getElementById('pyr'));
 
@@ -326,8 +367,12 @@ function go(){
   // 1. Текущий сценарий
   var scenCell=base,scenVal=vals[base],scenEn=ge(scenVal);
 
-  // 2. Таланты (макс из каждой чакры)
-  var talents=LV.map(function(l,i){var mc=chakraMaxCell(i,null);return{cell:mc,val:vals[mc],chakra:l.ch,co:l.co};});
+  // 2. Таланты (макс из каждой чакры; для Сахасрары — только ячейки 40 и 41)
+  var talents=LV.map(function(l,i){
+    var exclude=(i===6)?[42]:null; // Сахасрара: исключаем ячейку 42
+    var mc=chakraMaxCell(i,exclude);
+    return{cell:mc,val:vals[mc],chakra:l.ch,co:l.co};
+  });
 
   // 3. Зона ограничений
   var minV=sorted[0][1];
@@ -343,10 +388,9 @@ function go(){
   // 7. Популярность
   var popAvg=chakraAvg(4);
 
-  // 8. Воплощение — макс среди ячеек 18–41
-  var birthCell=null,birthMax=-1;
-  for(var n=18;n<=41;n++){if(vals[n]>birthMax||(vals[n]===birthMax&&(birthCell===null||n<birthCell))){birthMax=vals[n];birthCell=n;}}
-  var birthVal=vals[birthCell];
+  // 8. Путь к Источнику = 42 - base
+  var pathToSrc=42-base;
+  var pathToSrcLabel=(pathToSrc===0)?'Уже в Источнике':(pathToSrc<=7)?'Очень близко':(pathToSrc<=14)?'Близко':(pathToSrc<=21)?'Средний путь':(pathToSrc<=28)?'Далеко':(pathToSrc<=35)?'Очень далеко':'Начало пути';
 
   // 9. Здоровье
   var healthVal=vals[5];
@@ -370,20 +414,21 @@ function go(){
   // 15. Место в истории — макс в доминирующей чакре, исключая №42
   var histCell=chakraMaxCell(auraIdx,[42]);
 
-  // 16. Ключевые годы — таблица на 10 лет
+  // 16. Ключевые годы — таблица возраст 0–126
   var now=new Date(),cy=now.getFullYear(),cm=now.getMonth()+1;
   var topVals=[];
   var tableRows=[];
-  for(var yr=cy;yr<=cy+20;yr++){
-    var age=calcAge(yyyy,mm,dd,yr,6);
+  var birthYear=yyyy;
+  for(var age0=0;age0<=126;age0++){
+    var yr=birthYear+age0;
     var cellN=pY(base,yyyy,mm,dd,yr);
     var cellV=vals[cellN];
     var en=ge(cellV);
-    tableRows.push({yr:yr,age:age,cell:cellN,val:cellV,en:en});
+    tableRows.push({yr:yr,age:age0,cell:cellN,val:cellV,en:en,isCurYear:(yr===cy)});
     topVals.push(cellV);
   }
   topVals.sort(function(a,b){return b-a;});
-  var threshold=topVals[4]||0; // топ-5
+  var threshold=topVals[4]||0;
   tableRows.forEach(function(r){r.isKey=r.val>=threshold;});
 
   // 17. Характер
@@ -429,7 +474,7 @@ function go(){
   html+=card('5. Финансы (ср. Манипуры 18–24)',finAvg,gl(finAvg,'finance'),'Уровень: '+ge(finAvg).la);
   html+=card('6. Дети (ср. Свадхистханы 10–17)',kidsAvg,gl(kidsAvg,'children'),'');
   html+=card('7. Популярность (ср. Вишуддхи 31–35)',popAvg,gl(popAvg,'popular'),'');
-  html+=card('8. Воплощение (макс. ячейка 18–41)',birthVal,gl(birthVal,'birth'),'Ячейка №'+birthCell);
+  html+=card('8. Путь к Источнику (42 − base)',pathToSrc,pathToSrcLabel,'');
   html+=card('9. Здоровье (яч.5)',healthVal,gl(healthVal,'health'),'');
   html+=card('10. Карьера (яч.18)',careerVal,gl(careerVal,'career'),'');
   html+=card('11. Отношения (яч.30)',relVal,gl(relVal,'rel'),'');
@@ -445,11 +490,12 @@ function go(){
 
   // 16. Ключевые годы — ТАБЛИЦА
   html+='<p class="sect">16. Ключевые годы жизни</p>';
-  html+='<div class="key-years"><table class="ky-table">';
-  html+='<thead><tr><th>Год</th><th>Возраст</th><th>Активная ячейка</th><th>Сценарий</th><th>Число в ячейке</th><th>Уровень энергии</th><th>Ключевой</th></tr></thead><tbody>';
-  tableRows.slice(0,15).forEach(function(r){
-    html+='<tr style="'+(r.isKey?'background:rgba(127,119,221,0.1)':'')+'">';
-    html+='<td style="font-weight:600;color:#FFD700">'+r.yr+'</td>';
+  html+='<div style="font-size:12px;color:#6a5e8a;margin-bottom:8px">⭐ — топ-5 лет &nbsp;·&nbsp; ← текущий год &nbsp;·&nbsp; Формула: base('+base+') + возраст − 42</div>';
+  html+='<div class="key-years" style="max-height:400px;overflow-y:auto;border-radius:10px;border:1px solid #2d2550"><table class="ky-table">';
+  html+='<thead style="position:sticky;top:0;background:#1a1530;z-index:1"><tr><th>Год</th><th>Возраст</th><th>Активная ячейка</th><th>Сценарий</th><th>Число в ячейке</th><th>Уровень энергии</th><th>Ключевой</th></tr></thead><tbody>';
+  tableRows.forEach(function(r){
+    html+='<tr style="'+(r.isCurYear?'background:rgba(255,215,0,0.08);border-left:3px solid #FFD700':r.isKey?'background:rgba(127,119,221,0.1)':'')+'">';
+    html+='<td style="font-weight:600;color:'+(r.isCurYear?'#FFD700':r.isKey?'#c4b8ff':'#e8e4f8')+'">'+r.yr+(r.isCurYear?' ←':'')+'</td>';
     html+='<td>'+r.age+'</td>';
     html+='<td style="color:#c4b8ff">№'+r.cell+'</td>';
     html+='<td style="font-size:12px">'+NM[r.cell]+'</td>';
