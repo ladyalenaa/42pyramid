@@ -2,36 +2,40 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>Пирамида 42 — Леди Алёна</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',Arial,sans-serif;background:#0f0c1a;color:#e8e4f8;min-height:100vh;padding:20px 16px 40px}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#0f0c1a;color:#e8e4f8;min-height:100vh;padding:20px 16px 50px}
 .app{max-width:740px;margin:0 auto}
-.brand{text-align:center;margin-bottom:6px;font-size:12px;color:#6a5e8a;letter-spacing:2px;text-transform:uppercase}
-h1{text-align:center;font-size:26px;font-weight:700;color:#c4b8ff;margin-bottom:2px;letter-spacing:1px}
+.brand{text-align:center;margin-bottom:6px;font-size:11px;color:#6a5e8a;letter-spacing:2px;text-transform:uppercase}
+h1{text-align:center;font-size:clamp(22px,5vw,30px);font-weight:700;color:#c4b8ff;margin-bottom:6px;letter-spacing:1px}
 .sub{text-align:center;font-size:24px;font-weight:800;color:#fff;margin-bottom:24px;text-shadow:0 0 10px #7F77DD,0 0 20px #7F77DD}
 .form-wrap{background:#1a1530;border-radius:14px;padding:20px;margin-bottom:20px;border:1px solid #2d2550}
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .ff{grid-column:1/-1}
-.fg label{font-size:12px;color:#8878aa;display:block;margin-bottom:3px}
-input,select{width:100%;padding:9px 12px;background:#0f0c1a;border:1px solid #3a3060;border-radius:8px;color:#e8e4f8;font-size:14px}
-input:focus{outline:none;border-color:#7F77DD}
-.btn{width:100%;padding:11px;background:#7F77DD;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-top:4px;letter-spacing:.5px}
+.fg label{font-size:12px;color:#8878aa;display:block;margin-bottom:5px}
+input[type=text],select{width:100%;padding:10px 12px;background:#0f0c1a;border:1px solid #3a3060;border-radius:8px;color:#e8e4f8;font-size:14px}
+input[type=text]:focus,select:focus{outline:none;border-color:#7F77DD}
+select option{background:#1a1530}
+.btn{width:100%;padding:12px;background:#7F77DD;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-top:4px;letter-spacing:.5px;transition:background .2s}
 .btn:hover{background:#9b8ff0}
+.btn:active{background:#534AB7;transform:scale(.98)}
+.btn.btn2{background:#2d2550;margin-top:0}
+.btn.btn2:hover{background:#3d3570}
 .res{display:none}
 .base-row{text-align:center;font-size:13px;color:#8878aa;margin-bottom:14px;line-height:1.7}
 .base-row strong{color:#FFD700;font-size:18px}
 .pw{display:flex;justify-content:center;margin-bottom:20px;overflow-x:auto;padding:8px}
-.pyr{display:flex;flex-direction:column;align-items:center;gap:4px}
-.pr{display:flex;gap:4px}
-.cl{width:54px;height:50px;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s;position:relative}
+.pyr{display:flex;flex-direction:column;align-items:center;gap:3px}
+.pr{display:flex;gap:3px}
+.cl{width:clamp(38px,10vw,54px);height:clamp(36px,9vw,50px);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s;position:relative}
 .cl:hover{transform:scale(1.12);z-index:10}
 .cl.bh{box-shadow:0 0 0 3px #FFD700,0 0 18px #FFD70077;z-index:3;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 3px #FFD700,0 0 18px #FFD70077}50%{box-shadow:0 0 0 3px #FFD700,0 0 28px #FFD700aa}}
-.cl .cn{font-size:10px;font-weight:600;opacity:.7;line-height:1;color:#fff}
-.cl .dv{width:26px;height:1px;margin:3px 0;background:rgba(255,255,255,.35)}
-.cl .cv{font-size:16px;font-weight:800;color:#fff;line-height:1}
+.cl .cn{font-size:clamp(8px,2vw,10px);font-weight:600;opacity:.7;line-height:1;color:#fff}
+.cl .dv{width:22px;height:1px;margin:2px 0;background:rgba(255,255,255,.35)}
+.cl .cv{font-size:clamp(12px,3vw,16px);font-weight:800;color:#fff;line-height:1}
 .sect{font-size:15px;font-weight:600;color:#c4b8ff;margin:20px 0 10px;border-left:3px solid #7F77DD;padding-left:10px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
@@ -39,25 +43,18 @@ input:focus{outline:none;border-color:#7F77DD}
 .cc .la{font-size:11px;color:#8878aa;margin-bottom:4px}
 .cc .va{font-size:22px;font-weight:700;color:#c4b8ff}
 .cc .da{font-size:12px;color:#8878aa;margin-top:3px;line-height:1.4}
-.cc .en{font-size:11px;margin-top:3px;font-weight:600}
-.it{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:6px}
-.it td{padding:8px 12px;border-bottom:1px solid #1e1940;vertical-align:top}
-.it tr:last-child td{border-bottom:none}
-.it .lb{color:#8878aa;width:180px;font-weight:500}
-.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
 .tag{background:#2d2550;color:#c4b8ff;border-radius:6px;padding:4px 10px;font-size:12px;line-height:1.4}
-.tag.hi{background:#1a3020;color:#7fdd90}
-.tag.lo{background:#2a1020;color:#e88}
 .pg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
 .pb{background:#1a1530;border-radius:10px;padding:14px;border:1px solid #2d2550}
 .pb .pt{font-size:12px;color:#8878aa;margin-bottom:5px}
-.pb .pv{font-size:19px;font-weight:700}
+.pb .pv{font-size:17px;font-weight:700;line-height:1.3}
 .pb .pd{font-size:12px;color:#6a5e8a;margin-top:3px;line-height:1.4}
 .mg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
 .mb{border-radius:8px;padding:10px 8px;text-align:center;border:1px solid transparent}
 .mb .mn{font-size:11px;font-weight:600;margin-bottom:3px}
-.mb .mv{font-size:18px;font-weight:800;color:#fff}
-.mb .ml{font-size:10px;opacity:.8}
+.mb .mv{font-size:14px;font-weight:800;color:#fff;line-height:1.3}
+.mb .ml{font-size:10px;opacity:.8;margin-top:2px}
 .mb.cur{border-width:2px}
 .lg{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px}
 .li{display:flex;align-items:center;gap:5px;font-size:12px;color:#8878aa}
@@ -68,49 +65,56 @@ input:focus{outline:none;border-color:#7F77DD}
 .diag-bar{display:flex;align-items:center;gap:10px;font-size:12px}
 .diag-bar .db-name{width:110px;color:#8878aa;flex-shrink:0}
 .diag-bar .db-track{flex:1;height:10px;background:#1e1940;border-radius:5px;overflow:hidden}
-.diag-bar .db-fill{height:100%;border-radius:5px;transition:width .5s}
+.diag-bar .db-fill{height:100%;border-radius:5px}
 .diag-bar .db-val{width:30px;text-align:right;font-weight:600;color:#c4b8ff}
-.key-years{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
-.ky{background:#1a1530;border:1px solid #3a3060;border-radius:8px;padding:6px 14px;font-size:13px;text-align:center}
-.ky .ky-yr{color:#FFD700;font-weight:700}
-.ky .ky-cell{font-size:11px;color:#8878aa;margin-top:2px}
-.desc-block{background:#13102a;border:1px solid #1e1940;border-radius:8px;padding:12px 14px;font-size:13px;color:#8878aa;line-height:1.6;margin-bottom:8px}
-.desc-block b{color:#c4b8ff}
-
-@media (max-width:768px){
-.fg,.grid2,.grid3,.pg{grid-template-columns:1fr}
-.mg{grid-template-columns:repeat(2,1fr)}
-.sub{font-size:18px}
-.cl{width:40px;height:38px}
-.cl .cv{font-size:13px}
-.pyr{min-width:500px}
+.key-years{margin-bottom:12px}
+.ky-table{width:100%;border-collapse:collapse;font-size:13px}
+.ky-table th{padding:7px 10px;color:#8878aa;font-weight:500;text-align:left;border-bottom:1px solid #2d2550;font-size:12px}
+.ky-table td{padding:7px 10px;border-bottom:1px solid #1e1940;color:#e8e4f8}
+.ky-table tr:last-child td{border-bottom:none}
+.ky-table .star{color:#FFD700;font-size:14px}
+.compat-form{background:#1a1530;border-radius:12px;padding:16px;border:1px solid #2d2550;margin-bottom:14px}
+.compat-form h3{font-size:14px;color:#c4b8ff;margin-bottom:12px}
+.compat-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.compat-person{background:#13102a;border-radius:8px;padding:12px;border:1px solid #1e1940}
+.compat-person h4{font-size:12px;color:#8878aa;margin-bottom:8px}
+.compat-person label{font-size:11px;color:#6a5e8a;display:block;margin-bottom:3px;margin-top:6px}
+.compat-person select,.compat-person input{font-size:13px;padding:7px 10px}
+.cpyr{display:flex;flex-direction:column;align-items:center;gap:3px}
+.compat-section{background:#1a1530;border-radius:10px;padding:14px;border:1px solid #2d2550;margin-bottom:10px}
+.compat-section h4{font-size:13px;color:#c4b8ff;font-weight:600;margin-bottom:8px}
+@media(max-width:600px){
+  .fg,.grid2,.grid3,.pg,.compat-pair{grid-template-columns:1fr}
+  .ff{grid-column:1}
+  .mg{grid-template-columns:repeat(3,1fr)}
+  .diag-bar .db-name{width:80px;font-size:11px}
+  body{padding:12px 10px 50px}
+  .pyr{min-width:360px}
 }
-@media (max-width:480px){
-.mg{grid-template-columns:1fr}
-.form-wrap{padding:14px}
-.btn{font-size:14px}
+@media(max-width:400px){
+  .mg{grid-template-columns:repeat(2,1fr)}
+  .grid3{grid-template-columns:1fr 1fr}
 }
-
 </style>
-<script type="text/javascript" nonce="d4846a50cf14409897ff92be5ab" src="//injections.adguard.org?ts=1781475780815&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_0000000055d071f8aa69bdae7b1da016%26fn%3Dindex_modified.html%26cd%3Dattachment%26ts%3D494854%26p%3Dfs%26cid%3D1%26sig%3D45bffa6a33dc69a511a1d77cc9f410317b96da3d01ade8a2d0d9eb2bea5eff42%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="d4846a50cf14409897ff92be5ab" src="//injections.adguard.org?ts=1781475780815&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><script type="text/javascript" nonce="d4846a50cf14409897ff92be5ab" src="//injections.adguard.org?ts=1781465958440&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000dae871fdafd7e8e461e064d8%26fn%3Dmain_updated.html%26cd%3Dattachment%26ts%3D494853%26p%3Dfs%26cid%3D1%26sig%3D444a3675d84e01c289e905d0ccdab3581f271f67efcdf19c9567b653db46d893%26v%3D0&amp;app=chrome.exe&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="d4846a50cf14409897ff92be5ab" src="//injections.adguard.org?ts=1781465958440&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script></head>
+</head>
 <body>
 <div class="app">
   <div class="brand">Авторская система самопознания</div>
   <h1>🔺 Пирамида 42</h1>
-  <p class="sub">Персональная карта Леди Алёны</p>
+  <p class="sub">✨ Персональная карта Леди Алёны ✨</p>
 
   <div class="form-wrap">
     <div class="fg">
       <div class="ff">
-<label>Дата рождения</label>
-<div class="wheel-picker" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-<select id="day"></select>
-<select id="month"></select>
-<select id="year"></select>
-</div>
-</div>
-      <div><label>Город рождения</label><input type="text" id="city" placeholder=""></div>
-      <div><label>Имя</label><input type="text" id="iname" placeholder=""></div>
+        <label>Дата рождения</label>
+        <div style="display:grid;grid-template-columns:1fr 2fr 1.3fr;gap:8px">
+          <select id="day"><option value="">День</option></select>
+          <select id="month"><option value="">Месяц</option></select>
+          <select id="year"><option value="">Год</option></select>
+        </div>
+      </div>
+      <div><label>Город рождения</label><input type="text" id="city" placeholder=" "></div>
+      <div><label>Имя</label><input type="text" id="iname" placeholder=" "></div>
       <div class="ff"><button class="btn" onclick="go()">✨ Рассчитать пирамиду</button></div>
     </div>
   </div>
@@ -121,112 +125,139 @@ input:focus{outline:none;border-color:#7F77DD}
     <div class="pw"><div class="pyr" id="pyr"></div></div>
     <div id="out"></div>
   </div>
+
+  <!-- СОВМЕСТИМОСТЬ -->
+  <div id="compat-section" style="display:none;margin-top:30px">
+    <p class="sect" style="margin-top:0">🔮 Пирамида совместимости</p>
+    <div class="compat-form">
+      <div class="compat-pair">
+        <div class="compat-person">
+          <h4>Человек А</h4>
+          <label>День / Месяц / Год</label>
+          <div style="display:grid;grid-template-columns:1fr 2fr 1.3fr;gap:6px;margin-bottom:6px">
+            <select id="a_day"><option value="">День</option></select>
+            <select id="a_month"><option value="">Месяц</option></select>
+            <select id="a_year"><option value="">Год</option></select>
+          </div>
+          <label>Город рождения</label>
+          <input type="text" id="a_city" placeholder=" ">
+          <label>Имя</label>
+          <input type="text" id="a_name" placeholder=" ">
+        </div>
+        <div class="compat-person">
+          <h4>Человек Б</h4>
+          <label>День / Месяц / Год</label>
+          <div style="display:grid;grid-template-columns:1fr 2fr 1.3fr;gap:6px;margin-bottom:6px">
+            <select id="b_day"><option value="">День</option></select>
+            <select id="b_month"><option value="">Месяц</option></select>
+            <select id="b_year"><option value="">Год</option></select>
+          </div>
+          <label>Город рождения</label>
+          <input type="text" id="b_city" placeholder=" ">
+          <label>Имя</label>
+          <input type="text" id="b_name" placeholder=" ">
+        </div>
+      </div>
+      <button class="btn" onclick="calcCompat()">💫 Рассчитать совместимость</button>
+    </div>
+    <div id="compat-out"></div>
+  </div>
 </div>
 <div class="tp" id="tp"></div>
 
 <script>
-// === УРОВНИ ПИРАМИДЫ ===
+var MO_NAMES=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+
+// Заполняем все селекты дат
+function fillDateSelects(prefix){
+  var ids=prefix?[prefix+'_day',prefix+'_month',prefix+'_year']:['day','month','year'];
+  var dSel=document.getElementById(ids[0]);
+  var mSel=document.getElementById(ids[1]);
+  var ySel=document.getElementById(ids[2]);
+  for(var i=1;i<=31;i++){var o=document.createElement('option');o.value=i;o.textContent=i;dSel.appendChild(o);}
+  MO_NAMES.forEach(function(nm,idx){var o=document.createElement('option');o.value=idx+1;o.textContent=nm;mSel.appendChild(o);});
+  var cy=new Date().getFullYear();
+  for(var y=cy;y>=1900;y--){var o=document.createElement('option');o.value=y;o.textContent=y;ySel.appendChild(o);}
+}
+
+window.addEventListener('load',function(){
+  fillDateSelects('');
+  fillDateSelects('a');
+  fillDateSelects('b');
+});
+
+// === ДАННЫЕ ===
 var LV=[
-  {nums:[1,2,3,4,9,5,6,7,8],  ch:'Муладхара',   co:'#c42020', aura:'красный'},
-  {nums:[10,11,12,13,14,15,16,17], ch:'Свадхистхана',co:'#c05010', aura:'оранжевый'},
-  {nums:[18,19,20,24,21,22,23], ch:'Манипура',    co:'#b88008', aura:'жёлтый'},
-  {nums:[25,26,27,28,29,30],   ch:'Анахата',     co:'#1e6e0e', aura:'зелёный'},
-  {nums:[31,32,35,33,34],      ch:'Вишуддха',    co:'#0e80a8', aura:'голубой'},
-  {nums:[36,37,38,39],         ch:'Аджна',       co:'#1040a8', aura:'синий'},
-  {nums:[40,42,41],            ch:'Сахасрара',   co:'#5820a8', aura:'фиолетовый'}
+  {nums:[1,2,3,4,9,5,6,7,8],  ch:'Муладхара',    co:'#c42020',aura:'красный'},
+  {nums:[10,11,12,13,14,15,16,17],ch:'Свадхистана',co:'#c05010',aura:'оранжевый'},
+  {nums:[18,19,20,24,21,22,23],ch:'Манипура',     co:'#b88008',aura:'жёлтый'},
+  {nums:[25,26,27,28,29,30],   ch:'Анахата',      co:'#1e6e0e',aura:'зелёный'},
+  {nums:[31,32,35,33,34],      ch:'Вишудха',     co:'#0e80a8',aura:'голубой'},
+  {nums:[36,37,38,39],         ch:'Аджна',        co:'#1040a8',aura:'синий'},
+  {nums:[40,42,41],            ch:'Сахасрара',    co:'#5820a8',aura:'фиолетовый'}
 ];
-
-// === СЦЕНАРИИ ===
 var NM={1:'Жертва',2:'Тревожный',3:'Беглец',4:'Потерявший опору',5:'Заключённый в теле',6:'Бунтарь',7:'Охотник за ресурсами',8:'Воин',9:'Теневой лидер',10:'Эмоциональный хаос',11:'Зависимый',12:'Гедонист',13:'Манипулятор',14:'Игрок',15:'Творец в поиске',16:'Романтик',17:'Сексуальный гурман',18:'Перфекционист',19:'Рисковый предприниматель',20:'Трудоголик',21:'Честолюбец',22:'Карьерист',23:'Хранитель тайн',24:'Властный правитель',25:'Сомневающийся',26:'Спасатель',27:'Заботливый родитель',28:'Травмированный любовью',29:'Целитель',30:'Мастер любви',31:'Безмолвный мудрец',32:'Борец за правду',33:'Наставник',34:'Создатель смыслов',35:'Зеркало истины',36:'Интуитивный, но сбитый с толку',37:'Видящий, но не понимающий',38:'Теневой маг',39:'Проводник душ',40:'Отшельник',41:'Духовный наставник',42:'Источник'};
-
-// Краткое описание силы каждого сценария
 var DESC={1:'Сила — чувствовать чужую боль',2:'Сила — предусмотрительность',3:'Сила — быстрая адаптация',4:'Сила — открытость к новому',5:'Сила — исцеление тела',6:'Сила — смелость и созидание',7:'Сила — находить ресурсы',8:'Сила — дисциплина и преданность',9:'Сила — влияние без давления',10:'Сила — эмоциональная глубина',11:'Сила — гармоничные отношения',12:'Сила — радоваться жизни',13:'Сила — понимание психологии',14:'Сила — лёгкость и свобода',15:'Сила — творческий потенциал',16:'Сила — любить и вдохновлять',17:'Сила — принятие своей природы',18:'Сила — качество и дисциплина',19:'Сила — смелость и предприимчивость',20:'Сила — выносливость',21:'Сила — амбиции и целеустремлённость',22:'Сила — профессионализм',23:'Сила — наблюдательность',24:'Сила — лидерство и организованность',25:'Сила — видеть разные стороны',26:'Сила — сострадание',27:'Сила — любовь и забота',28:'Сила — любовь к себе',29:'Сила — эмпатия',30:'Сила — безусловная любовь',31:'Сила — мудрость',32:'Сила — честность',33:'Сила — передавать знания',34:'Сила — вдохновение',35:'Сила — ясность и безупречность',36:'Сила — открытость прозрениям',37:'Сила — замечать знаки',38:'Сила — понимание энергий',39:'Сила — интуиция душ',40:'Сила — духовная глубина',41:'Сила — мудрость и смирение',42:'Сила — полнота и единство'};
 
-// === ТАБЛИЦА БУКВ (А=1..Я=33) ===
 var LM={};
 var alpha='АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
-for(var i=0;i<alpha.length;i++){
-  LM[alpha[i]]=i+1;
-  LM[alpha[i].toLowerCase()]=i+1;
-}
+for(var i=0;i<alpha.length;i++){LM[alpha[i]]=i+1;LM[alpha[i].toLowerCase()]=i+1;}
 
-function sumDigits(n){var s=0;String(Math.abs(n)).split('').forEach(function(d){s+=+d;});return s;}
-
-function sumStr(str){
-  var s=0;
-  for(var i=0;i<str.length;i++){var v=LM[str[i]]||0;s+=v;}
-  while(s>42)s-=42;
-  return Math.max(1,s);
-}
-
+function sumStr(str){var s=0;for(var i=0;i<str.length;i++){s+=LM[str[i]]||0;}while(s>42)s-=42;return Math.max(1,s);}
 function calcBase(dd,mm,yyyy,city,name){
-  // 1. Сумма цифр даты
-  var ds=String(dd)+String(mm)+String(yyyy);
-  var sd=0;ds.split('').forEach(function(d){sd+=+d;});
-  // 2. Число города
+  var ds=String(dd)+String(mm)+String(yyyy),sd=0;
+  ds.split('').forEach(function(d){sd+=+d;});
   var sc=sumStr(city.replace(/[^а-яёА-ЯЁ]/g,''));
-  // 3. Число имени
   var sn=sumStr(name.replace(/[^а-яёА-ЯЁ]/g,''));
-  // 4. Итог
-  var base=sd+sc+sn;
-  while(base>42)base-=42;
-  if(base<1)base=1;
+  var base=sd+sc+sn;while(base>42)base-=42;if(base<1)base=1;
   return{base:base,sd:sd,sc:sc,sn:sn};
 }
-
 function cellVal(base,n){var v=(base*n)%42;return v===0?42:v;}
 
-// === УРОВНИ ЭНЕРГИИ ===
 var EN=[
-  {r:[1,7],   la:'Сон',        co:'#c42020',de:'Блок, страх, низкая энергия'},
-  {r:[8,14],  la:'Пробуждение',co:'#c05010',de:'Начало движения'},
-  {r:[15,21], la:'Активность', co:'#b88008',de:'Трансформация'},
-  {r:[22,28], la:'Сила',       co:'#1e6e0e',de:'Уверенность'},
-  {r:[29,35], la:'Гармония',   co:'#1040a8',de:'Почти суть'},
-  {r:[36,42], la:'Суть',       co:'#5820a8',de:'Максимальная проявленность'}
+  {r:[1,7],la:'Сон',co:'#c42020',de:'Блок, страх, низкая энергия'},
+  {r:[8,14],la:'Пробуждение',co:'#c05010',de:'Начало движения'},
+  {r:[15,21],la:'Активность',co:'#b88008',de:'Трансформация'},
+  {r:[22,28],la:'Сила',co:'#1e6e0e',de:'Уверенность'},
+  {r:[29,35],la:'Гармония',co:'#1040a8',de:'Почти суть'},
+  {r:[36,42],la:'Суть',co:'#5820a8',de:'Максимальная проявленность'}
 ];
 function ge(v){return EN.find(function(e){return v>=e.r[0]&&v<=e.r[1];})||EN[0];}
 
-// === ТАБЛИЦЫ ПОКАЗАТЕЛЕЙ ===
 var BANDS=[7,14,21,28,35,42];
 function bandIdx(v){var i=0;while(i<BANDS.length&&v>BANDS[i])i++;return Math.min(i,5);}
-
 var TBLS={
-  finance: ['Низкий','Средний','Хороший','Высокий','Очень высокий','Максимальный'],
+  finance:['Низкий','Средний','Хороший','Высокий','Очень высокий','Максимальный'],
   children:['0–1 ребёнок','1–2 детей','2–3 детей','3–4 детей','4–5 детей','5+ детей'],
-  popular: ['Незаметный','Узнаваемый в узком кругу','Популярный в своей сфере','Известный в городе/стране','Звезда','Мировая слава'],
-  health:  ['Слабое','Среднее','Хорошее','Крепкое','Отличное','Высшее'],
-  career:  ['Низкий потенциал','Растущий потенциал','Хороший потенциал','Высокий потенциал','Очень высокий потенциал','Выдающийся потенциал'],
-  rel:     ['Сложные','Стабилизация','Гармоничные','Крепкие','Идеальные','Высшая гармония'],
-  spirit:  ['Начало пути','Осознание','Активный рост','Близость к сути','Почти просветление','Просветление'],
-  birth:   ['1-е воплощение','2-е воплощение','3-е воплощение','4-е воплощение','5-е воплощение','6-е воплощение'],
-  chakra:  ['Чакра заблокирована','Чакра начинает просыпаться','Чакра в процессе трансформации','Чакра в хорошем состоянии','Чакра в гармонии','Чакра полностью открыта'],
-  energy:  ['Очень низкий уровень','Низкий уровень','Средний уровень','Высокий уровень','Очень высокий уровень','Максимальный уровень']
+  popular:['Незаметный','Узнаваемый в узком кругу','Популярный в своей сфере','Известный в городе/стране','Звезда','Мировая слава'],
+  health:['Слабое','Среднее','Хорошее','Крепкое','Отличное','Высшее'],
+  career:['Низкий потенциал','Растущий потенциал','Хороший потенциал','Высокий потенциал','Очень высокий потенциал','Выдающийся потенциал'],
+  rel:['Сложные','Стабилизация','Гармоничные','Крепкие','Идеальные','Высшая гармония'],
+  spirit:['Начало пути','Осознание','Активный рост','Близость к сути','Почти просветление','Просветление'],
+  birth:['1-е воплощение','2-е воплощение','3-е воплощение','4-е воплощение','5-е воплощение','6-е воплощение'],
+  chakra:['Чакра заблокирована','Чакра начинает просыпаться','Чакра в процессе трансформации','Чакра в хорошем состоянии','Чакра в гармонии','Чакра полностью открыта'],
+  energy:['Очень низкий уровень','Низкий уровень','Средний уровень','Высокий уровень','Очень высокий уровень','Максимальный уровень'],
+  sexual:['Низкая','Средняя','Хорошая','Высокая','Очень высокая','Максимальная']
 };
 function gl(v,t){return TBLS[t][bandIdx(v)];}
 
-// === ПРОГНОЗЫ ===
-var MO=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+var G_VALS={}; // глобальные vals для совместимости
 
 function calcAge(yyyy,mm,dd,yr,curMo){
   var age=yr-yyyy;
   if(curMo<mm||(curMo===mm&&new Date().getDate()<dd))age--;
   return Math.max(0,age);
 }
+// Активная ячейка = base + возраст (если <1 → 1, если >42 → вычитаем 42)
 function pY(base,yyyy,mm,dd,yr){
   var age=calcAge(yyyy,mm,dd,yr,new Date().getMonth()+1);
-  // Активная ячейка = (base + возраст) - 42
-  var v=(base+age)-42;
-  while(v>42)v-=42;
-  if(v<1)v=1;
-  return v;
+  var v=base+age;while(v>42)v-=42;if(v<1)v=1;return v;
 }
 function pM(base,yyyy,mm,dd,yr,mo){
   var age=calcAge(yyyy,mm,dd,yr,mo);
-  var v=base+age+mo;while(v>42)v-=42;return Math.max(1,v);
+  var v=base+age+mo;while(v>42)v-=42;if(v<1)v=1;return v;
 }
 
-// === ТУЛТИП ===
 function addTip(cell,n,v){
   cell.addEventListener('mouseenter',function(e){
     var t=document.getElementById('tp'),en=ge(v);
@@ -238,34 +269,8 @@ function addTip(cell,n,v){
   cell.addEventListener('mouseleave',function(){document.getElementById('tp').style.display='none';});
 }
 
-// === РАСЧЁТ И РЕНДЕР ===
-function go(){
-  
-var day=document.getElementById('day').value;
-var month=document.getElementById('month').value;
-var year=document.getElementById('year').value;
-var dob=year+'-'+String(month).padStart(2,'0')+'-'+String(day).padStart(2,'0');
-
-  var city=document.getElementById('city').value||'';
-  var name=document.getElementById('iname').value||'';
-  if(!dob){alert('Пожалуйста, укажите дату рождения');return;}
-  if(!city.trim()){alert('Пожалуйста, укажите город рождения');return;}
-  if(!name.trim()){alert('Пожалуйста, укажите имя');return;}
-  var parts=dob.split('-').map(Number),yyyy=parts[0],mm=parts[1],dd=parts[2];
-  var B=calcBase(dd,mm,yyyy,city,name),base=B.base;
-  var vals={};for(var n=1;n<=42;n++)vals[n]=cellVal(base,n);
-
-  document.getElementById('res').style.display='block';
-  document.getElementById('br').innerHTML=
-    'Базовое число: <strong>'+base+'</strong><br>'+
-    '<span style="font-size:12px">дата ('+B.sd+') + город «'+city+'» ('+B.sc+') + имя «'+name+'» ('+B.sn+')</span>';
-
-  document.getElementById('lg').innerHTML=LV.map(function(l){
-    return '<div class="li"><div class="ld" style="background:'+l.co+'"></div><span>'+l.ch+'</span></div>';
-  }).join('');
-
-  // Пирамида
-  var pyr=document.getElementById('pyr');pyr.innerHTML='';
+function buildPyramid(vals,base,pyrEl){
+  pyrEl.innerHTML='';
   LV.slice().reverse().forEach(function(level){
     var row=document.createElement('div');row.className='pr';
     level.nums.forEach(function(n){
@@ -274,302 +279,331 @@ var dob=year+'-'+String(month).padStart(2,'0')+'-'+String(day).padStart(2,'0');
       cell.className='cl'+(n===base?' bh':'');
       cell.style.background=level.co;
       cell.innerHTML='<span class="cn">'+n+'</span><div class="dv"></div><span class="cv">'+v+'</span>';
-      addTip(cell,n,v);
-      row.appendChild(cell);
+      addTip(cell,n,v);row.appendChild(cell);
     });
-    pyr.appendChild(row);
+    pyrEl.appendChild(row);
   });
+}
 
-  // === 21 ПОКАЗАТЕЛЬ ===
+function go(){
+  var dd=+document.getElementById('day').value;
+  var mm=+document.getElementById('month').value;
+  var yyyy=+document.getElementById('year').value;
+  var city=document.getElementById('city').value||'';
+  var name=document.getElementById('iname').value||'';
+  if(!dd||!mm||!yyyy){alert('Пожалуйста, выберите дату рождения');return;}
+  if(!city.trim()){alert('Пожалуйста, укажите город рождения');return;}
+  if(!name.trim()){alert('Пожалуйста, укажите имя');return;}
+
+  var B=calcBase(dd,mm,yyyy,city,name),base=B.base;
+  var vals={};for(var n=1;n<=42;n++)vals[n]=cellVal(base,n);
+  G_VALS=vals;
+
+  document.getElementById('res').style.display='block';
+  document.getElementById('compat-section').style.display='block';
+  document.getElementById('res').scrollIntoView({behavior:'smooth',block:'start'});
+
+  document.getElementById('br').innerHTML='Базовое число: <strong>'+base+'</strong><br><span style="font-size:12px">дата ('+B.sd+') + город «'+city+'» ('+B.sc+') + имя «'+name+'» ('+B.sn+')</span>';
+  document.getElementById('lg').innerHTML=LV.map(function(l){return '<div class="li"><div class="ld" style="background:'+l.co+'"></div><span>'+l.ch+'</span></div>';}).join('');
+
+  buildPyramid(vals,base,document.getElementById('pyr'));
 
   // Вспомогательные
-  function chakraNums(idx){return LV[idx].nums;}
   function chakraVals(idx){return LV[idx].nums.map(function(n){return vals[n];});}
   function chakraAvg(idx){var vs=chakraVals(idx);return Math.round(vs.reduce(function(a,b){return a+b;},0)/vs.length);}
-  function chakraMax(idx){return Math.max.apply(null,chakraVals(idx));}
-  function chakraMaxCell(idx){var mx=chakraMax(idx);return LV[idx].nums.find(function(n){return vals[n]===mx;});}
+  function chakraMaxCell(idx,excludeList){
+    var best=null,bestV=-1;
+    LV[idx].nums.forEach(function(n){
+      if(excludeList&&excludeList.indexOf(n)>=0)return;
+      if(vals[n]>bestV||(vals[n]===bestV&&(best===null||n<best))){bestV=vals[n];best=n;}
+    });
+    return best;
+  }
+
+  var sorted=Object.entries(vals).sort(function(a,b){return a[1]-b[1]||(+a[0])-(+b[0]);});
+  var sortedDesc=Object.entries(vals).sort(function(a,b){return b[1]-a[1]||(+a[0])-(+b[0]);});
 
   // 1. Текущий сценарий
-  var scenCell=base;var scenVal=vals[scenCell];var scenEn=ge(scenVal);
+  var scenCell=base,scenVal=vals[base],scenEn=ge(scenVal);
 
-  // 2. Таланты — макс по каждой чакре
-  var talents=LV.map(function(l,i){
-    var mc=chakraMaxCell(i);
-    return{cell:mc,val:vals[mc],chakra:l.ch};
-  });
+  // 2. Таланты (макс из каждой чакры)
+  var talents=LV.map(function(l,i){var mc=chakraMaxCell(i,null);return{cell:mc,val:vals[mc],chakra:l.ch,co:l.co};});
 
-  // 3. Зона ограничений — 2 ячейки с наименьшими значениями
-  var sorted=Object.entries(vals).sort(function(a,b){return a[1]-b[1]||a[0]-b[0];});
+  // 3. Зона ограничений
   var minV=sorted[0][1];
   var limitCells=sorted.filter(function(e){return e[1]<=minV+2;}).slice(0,2).map(function(e){return +e[0];});
 
-  // 4. Прошлая жизнь — ячейка с наименьшим числом (мин индекс при равных)
-  var pastCell=sorted[0];
-  for(var i=1;i<sorted.length;i++){if(+sorted[i][1]<+pastCell[1]||(+sorted[i][1]===+pastCell[1]&&+sorted[i][0]<+pastCell[0]))pastCell=sorted[i];}
-  var pastN=+pastCell[0];
+  // 4. Прошлая жизнь
+  var pastN=+sorted[0][0];
 
-  // 5. Финансы — среднее Манипуры (18-24)
+  // 5. Финансы
   var finAvg=chakraAvg(2);
-
-  // 6. Дети — среднее Свадхистханы (10-17)
+  // 6. Дети
   var kidsAvg=chakraAvg(1);
-
-  // 7. Популярность — среднее Вишуддхи (31-35)
+  // 7. Популярность
   var popAvg=chakraAvg(4);
 
-  // 8. Воплощение — ячейка 42
-  var birthVal=vals[42];
+  // 8. Воплощение — макс среди ячеек 18–41
+  var birthCell=null,birthMax=-1;
+  for(var n=18;n<=41;n++){if(vals[n]>birthMax||(vals[n]===birthMax&&(birthCell===null||n<birthCell))){birthMax=vals[n];birthCell=n;}}
+  var birthVal=vals[birthCell];
 
-  // 9. Здоровье — ячейка 5
+  // 9. Здоровье
   var healthVal=vals[5];
-
-  // 10. Карьера — ячейка 18
+  // 10. Карьера
   var careerVal=vals[18];
-
-  // 11. Отношения — ячейка 30
+  // 11. Отношения
   var relVal=vals[30];
 
-  // 12. Духовный рост — ячейка 42
-  var spiritVal=vals[42];
+  // 12. Духовный рост — ячейка с наибольшим числом (исключая №42)
+  var spiritCell=null,spiritMax=-1;
+  for(var n=1;n<=41;n++){if(vals[n]>spiritMax||(vals[n]===spiritMax&&(spiritCell===null||n<spiritCell))){spiritMax=vals[n];spiritCell=n;}}
+  var spiritVal=vals[spiritCell];
 
-  // 13. Цвет ауры — чакра с макс средним
+  // 13. Цвет ауры
   var avgs=LV.map(function(l,i){return chakraAvg(i);});
-  var maxAvg=Math.max.apply(null,avgs);
-  var auraIdx=avgs.indexOf(maxAvg);
-  var auraChakra=LV[auraIdx];
+  var maxAvg=Math.max.apply(null,avgs),auraIdx=avgs.indexOf(maxAvg),auraChakra=LV[auraIdx];
 
-  // 14. Уровень энергии — ячейка базового числа
+  // 14. Уровень энергии
   var energyVal=vals[base];
 
-  // 15. Место в истории — ячейка с макс числом в доминирующей чакре
-  var histCell=chakraMaxCell(auraIdx);
+  // 15. Место в истории — макс в доминирующей чакре, исключая №42
+  var histCell=chakraMaxCell(auraIdx,[42]);
 
-  // 16. Ключевые годы — 5 лет с макс числами из прогноза (следующие 20 лет)
+  // 16. Ключевые годы — таблица на 10 лет
   var now=new Date(),cy=now.getFullYear(),cm=now.getMonth()+1;
-  var yearScores=[];
-  for(var yr=cy;yr<=cy+30;yr++){
-    var yv2=pY(base,yyyy,mm,dd,yr);
-    yearScores.push({yr:yr,cell:yv2,val:vals[yv2]||yv2});
+  var topVals=[];
+  var tableRows=[];
+  for(var yr=cy;yr<=cy+20;yr++){
+    var age=calcAge(yyyy,mm,dd,yr,6);
+    var cellN=pY(base,yyyy,mm,dd,yr);
+    var cellV=vals[cellN];
+    var en=ge(cellV);
+    tableRows.push({yr:yr,age:age,cell:cellN,val:cellV,en:en});
+    topVals.push(cellV);
   }
-  yearScores.sort(function(a,b){return b.val-a.val||a.yr-b.yr;});
-  var keyYears=yearScores.slice(0,5).sort(function(a,b){return a.yr-b.yr;});
+  topVals.sort(function(a,b){return b-a;});
+  var threshold=topVals[4]||0; // топ-5
+  tableRows.forEach(function(r){r.isKey=r.val>=threshold;});
 
-  // 17. Характер — 12 ключевых ячеек (по 2 из каждых 6 диапазонов ячеек)
+  // 17. Характер
   var charCells=[1,9,10,17,18,24,25,30,31,35,36,42];
 
   // 18. Идеальный партнёр
   var p1=base+21,p2=base-21;
-  var pList=[];
-  if(p1>=1&&p1<=42)pList.push(p1);
-  if(p2>=1&&p2<=42)pList.push(p2);
-  if(pList.length===0)pList=[1];
-  var partnerCell=Math.min.apply(null,pList);
+  if(p1>42)p1=42;if(p1<1)p1=1;
+  if(p2>42)p2=42;if(p2<1)p2=1;
+  var partnerCell=(p1<=p2)?p1:p2;
+  if(base+21<=42&&base-21>=1)partnerCell=Math.min(base+21,base-21);
+  else if(base+21<=42)partnerCell=base+21;
+  else if(base-21>=1)partnerCell=base-21;
+  else partnerCell=1;
 
-  // 19. Кармическая задача — ячейка с самым низким числом
+  // 19. Кармическая задача
   var karmaCell=+sorted[0][0];
-  for(var ii=1;ii<sorted.length;ii++){if(+sorted[ii][1]<vals[karmaCell]||(+sorted[ii][1]===vals[karmaCell]&&+sorted[ii][0]<karmaCell))karmaCell=+sorted[ii][0];}
 
-  // 20. Зона роста — ячейки со значениями 8-14
+  // 20. Зона роста
   var growthCells=Object.entries(vals).filter(function(e){return e[1]>=8&&e[1]<=14;}).map(function(e){return +e[0];});
 
-  // 21. Энергодиагностика — среднее по каждой чакре
+  // 21. Энергодиагностика
   var diagAvgs=LV.map(function(l,i){return{name:l.ch,co:l.co,avg:chakraAvg(i)};});
 
   // ==== РЕНДЕР ====
   var html='';
 
-  // --- Блок 1: Текущий сценарий ---
   html+='<p class="sect">1. Текущий сценарий</p>';
-  html+='<div class="cc" style="margin-bottom:10px">';
-  html+='<div class="la">Ячейка №'+scenCell+'</div>';
-  html+='<div class="va" style="color:'+scenEn.co+'">'+NM[scenCell]+'</div>';
-  html+='<div class="da">Значение: <b>'+scenVal+'</b> · '+scenEn.la+' — '+scenEn.de+'</div>';
-  html+='<div class="da" style="margin-top:4px;color:#7a7095">'+DESC[scenCell]+'</div>';
+  html+='<div class="cc" style="margin-bottom:10px"><div class="la">Ячейка №'+scenCell+'</div><div class="va" style="color:'+scenEn.co+'">'+NM[scenCell]+'</div><div class="da">Значение: <b>'+scenVal+'</b> · '+scenEn.la+' — '+scenEn.de+'</div><div class="da" style="margin-top:4px;color:#7a7095">'+DESC[scenCell]+'</div></div>';
+
+  html+='<p class="sect">2. Таланты (по одному из каждой чакры)</p><div class="grid2" style="margin-bottom:10px">';
+  talents.forEach(function(t){var en=ge(t.val);html+='<div class="cc"><div class="la">'+t.chakra+'</div><div class="va" style="color:'+en.co+'">'+t.val+'</div><div class="da">'+t.cell+'. '+NM[t.cell]+'</div></div>';});
   html+='</div>';
 
-  // --- Блок 2: Таланты ---
-  html+='<p class="sect">2. Таланты (по одному из каждой чакры)</p>';
-  html+='<div class="grid2" style="margin-bottom:10px">';
-  talents.forEach(function(t){
-    var en=ge(t.val);
-    html+='<div class="cc"><div class="la">'+t.chakra+'</div><div class="va" style="color:'+en.co+'">'+t.val+'</div><div class="da">'+t.cell+'. '+NM[t.cell]+'</div></div>';
-  });
+  html+='<p class="sect">3. Зона ограничений</p><div class="grid2" style="margin-bottom:10px">';
+  limitCells.forEach(function(n){var en=ge(vals[n]);html+='<div class="cc"><div class="la">Ячейка №'+n+'</div><div class="va" style="color:'+en.co+'">'+vals[n]+'</div><div class="da">'+NM[n]+'</div></div>';});
   html+='</div>';
 
-  // --- Блок 3: Зона ограничений ---
-  html+='<p class="sect">3. Зона ограничений</p>';
-  html+='<div class="grid2" style="margin-bottom:10px">';
-  limitCells.forEach(function(n){
-    var en=ge(vals[n]);
-    html+='<div class="cc"><div class="la">Ячейка №'+n+'</div><div class="va" style="color:'+en.co+'">'+vals[n]+'</div><div class="da">'+NM[n]+'</div></div>';
-  });
-  html+='</div>';
+  html+='<p class="sect">4. Прошлая жизнь</p><div class="cc" style="margin-bottom:10px"><div class="la">Роль в прошлом воплощении (ячейка №'+pastN+')</div><div class="va">'+NM[pastN]+'</div><div class="da">Значение: '+vals[pastN]+' · Урок этой жизни: '+DESC[pastN]+'</div></div>';
 
-  // --- Блок 4: Прошлая жизнь ---
-  html+='<p class="sect">4. Прошлая жизнь</p>';
-  html+='<div class="cc" style="margin-bottom:10px">';
-  html+='<div class="la">Роль в прошлом воплощении (ячейка №'+pastN+')</div>';
-  html+='<div class="va">'+NM[pastN]+'</div>';
-  html+='<div class="da">Значение: '+vals[pastN]+' · Урок этой жизни: '+DESC[pastN]+'</div>';
-  html+='</div>';
-
-  // --- Блоки 5-12: Ключевые показатели ---
-  html+='<p class="sect">Ключевые показатели (5–12)</p>';
-  html+='<div class="grid2">';
-  function card(title,val,label,sub){return '<div class="cc"><div class="la">'+title+'</div><div class="va">'+val+'</div><div class="da">'+label+(sub?'<br>'+sub:'')+'</div></div>';}
-  html+=card('5. Финансы (среднее Манипуры 18–24)',finAvg,gl(finAvg,'finance'),'Уровень: '+ge(finAvg).la);
-  html+=card('6. Дети (среднее Свадхистханы 10–17)',kidsAvg,gl(kidsAvg,'children'),'');
-  html+=card('7. Популярность (среднее Вишуддхи 31–35)',popAvg,gl(popAvg,'popular'),'');
-  html+=card('8. Воплощение (яч.42)',birthVal,gl(birthVal,'birth'),'');
+  html+='<p class="sect">Ключевые показатели (5–12)</p><div class="grid2">';
+  function card(t,v,l,s){return '<div class="cc"><div class="la">'+t+'</div><div class="va">'+v+'</div><div class="da">'+l+(s?'<br>'+s:'')+'</div></div>';}
+  html+=card('5. Финансы (ср. Манипуры 18–24)',finAvg,gl(finAvg,'finance'),'Уровень: '+ge(finAvg).la);
+  html+=card('6. Дети (ср. Свадхистханы 10–17)',kidsAvg,gl(kidsAvg,'children'),'');
+  html+=card('7. Популярность (ср. Вишуддхи 31–35)',popAvg,gl(popAvg,'popular'),'');
+  html+=card('8. Воплощение (макс. ячейка 18–41)',birthVal,gl(birthVal,'birth'),'Ячейка №'+birthCell);
   html+=card('9. Здоровье (яч.5)',healthVal,gl(healthVal,'health'),'');
   html+=card('10. Карьера (яч.18)',careerVal,gl(careerVal,'career'),'');
   html+=card('11. Отношения (яч.30)',relVal,gl(relVal,'rel'),'');
-  html+=card('12. Духовный рост (яч.42)',spiritVal,gl(spiritVal,'spirit'),'');
+  html+=card('12. Духовный рост (макс. ячейка, без №42)',spiritVal,gl(spiritVal,'spirit'),'Ячейка №'+spiritCell);
   html+='</div>';
 
-  // --- Блок 13: Цвет ауры ---
-  html+='<p class="sect">13. Цвет ауры</p>';
-  html+='<div class="cc" style="margin-bottom:10px;display:flex;align-items:center;gap:16px">';
-  html+='<div class="aura-dot" style="background:'+auraChakra.co+'">'+maxAvg+'</div>';
-  html+='<div><div style="font-size:18px;font-weight:700;color:'+auraChakra.co+'">'+auraChakra.aura.charAt(0).toUpperCase()+auraChakra.aura.slice(1)+'</div>';
-  html+='<div style="font-size:13px;color:#8878aa;margin-top:3px">'+auraChakra.ch+' · среднее '+maxAvg+'</div></div></div>';
+  html+='<p class="sect">13. Цвет ауры</p><div class="cc" style="margin-bottom:10px;display:flex;align-items:center;gap:16px"><div class="aura-dot" style="background:'+auraChakra.co+'">'+maxAvg+'</div><div><div style="font-size:18px;font-weight:700;color:'+auraChakra.co+'">'+auraChakra.aura.charAt(0).toUpperCase()+auraChakra.aura.slice(1)+'</div><div style="font-size:13px;color:#8878aa;margin-top:3px">'+auraChakra.ch+' · среднее '+maxAvg+'</div></div></div>';
 
-  // --- Блок 14: Уровень энергии ---
-  html+='<p class="sect">14. Уровень энергии</p>';
-  html+='<div class="cc" style="margin-bottom:10px">';
   var enE=ge(energyVal);
-  html+='<div class="la">Ячейка базового числа №'+base+'</div>';
-  html+='<div class="va" style="color:'+enE.co+'">'+energyVal+' — '+enE.la+'</div>';
-  html+='<div class="da">'+gl(energyVal,'energy')+'</div>';
-  html+='</div>';
+  html+='<p class="sect">14. Уровень энергии</p><div class="cc" style="margin-bottom:10px"><div class="la">Ячейка базового числа №'+base+'</div><div class="va" style="color:'+enE.co+'">'+energyVal+' — '+enE.la+'</div><div class="da">'+gl(energyVal,'energy')+'</div></div>';
 
-  // --- Блок 15: Место в истории ---
-  html+='<p class="sect">15. Место в истории</p>';
-  html+='<div class="cc" style="margin-bottom:10px">';
-  html+='<div class="la">'+auraChakra.ch+' · ячейка №'+histCell+'</div>';
-  html+='<div class="va">'+NM[histCell]+'</div>';
-  html+='<div class="da">Главный вклад: '+DESC[histCell]+'</div>';
-  html+='</div>';
+  html+='<p class="sect">15. Место в истории</p><div class="cc" style="margin-bottom:10px"><div class="la">'+auraChakra.ch+' · ячейка №'+histCell+' (без №42)</div><div class="va">'+NM[histCell]+'</div><div class="da">Главный вклад: '+DESC[histCell]+'</div></div>';
 
-  // --- Блок 16: Ключевые годы ---
+  // 16. Ключевые годы — ТАБЛИЦА
   html+='<p class="sect">16. Ключевые годы жизни</p>';
-  html+='<div class="key-years">';
-  keyYears.forEach(function(ky){
-    var en=ge(ky.val);
-    html+='<div class="ky"><div class="ky-yr" style="color:'+en.co+'">'+ky.yr+'</div><div class="ky-cell">яч.'+ky.cell+' · '+ky.val+' ('+en.la+')</div></div>';
+  html+='<div class="key-years"><table class="ky-table">';
+  html+='<thead><tr><th>Год</th><th>Возраст</th><th>Активная ячейка</th><th>Сценарий</th><th>Число в ячейке</th><th>Уровень энергии</th><th>Ключевой</th></tr></thead><tbody>';
+  tableRows.slice(0,15).forEach(function(r){
+    html+='<tr style="'+(r.isKey?'background:rgba(127,119,221,0.1)':'')+'">';
+    html+='<td style="font-weight:600;color:#FFD700">'+r.yr+'</td>';
+    html+='<td>'+r.age+'</td>';
+    html+='<td style="color:#c4b8ff">№'+r.cell+'</td>';
+    html+='<td style="font-size:12px">'+NM[r.cell]+'</td>';
+    html+='<td style="font-weight:700;color:'+r.en.co+'">'+r.val+'</td>';
+    html+='<td style="font-size:12px;color:'+r.en.co+'">'+r.en.la+'</td>';
+    html+='<td class="star">'+(r.isKey?'⭐':'')+'</td>';
+    html+='</tr>';
   });
+  html+='</tbody></table></div>';
+
+  html+='<p class="sect">17. Характер</p><div class="grid3" style="margin-bottom:10px">';
+  charCells.forEach(function(n){var v=vals[n],en=ge(v);html+='<div class="cc"><div class="la">Яч.'+n+'</div><div style="font-size:13px;font-weight:600;color:'+en.co+'">'+NM[n]+'</div><div class="da">'+v+' · '+en.la+'</div></div>';});
   html+='</div>';
 
-  // --- Блок 17: Характер ---
-  html+='<p class="sect">17. Характер</p>';
-  html+='<div class="grid3" style="margin-bottom:10px">';
-  charCells.forEach(function(n){
-    var v=vals[n],en=ge(v);
-    html+='<div class="cc"><div class="la">Яч.'+n+'</div><div style="font-size:13px;font-weight:600;color:'+en.co+'">'+NM[n]+'</div><div class="da">'+v+' · '+en.la+'</div></div>';
-  });
-  html+='</div>';
+  html+='<p class="sect">18. Сценарий идеального партнёра</p><div class="cc" style="margin-bottom:10px"><div class="la">Ячейка №'+partnerCell+' (base '+base+' ± 21)</div><div class="va">'+NM[partnerCell]+'</div><div class="da">Значение: '+vals[partnerCell]+' · '+DESC[partnerCell]+'</div></div>';
 
-  // --- Блок 18: Идеальный партнёр ---
-  html+='<p class="sect">18. Сценарий идеального партнёра</p>';
-  html+='<div class="cc" style="margin-bottom:10px">';
-  html+='<div class="la">Ячейка №'+partnerCell+' (base '+base+' ± 21)</div>';
-  html+='<div class="va">'+NM[partnerCell]+'</div>';
-  html+='<div class="da">Значение: '+vals[partnerCell]+' · '+DESC[partnerCell]+'</div>';
-  html+='</div>';
+  html+='<p class="sect">19. Кармическая задача</p><div class="cc" style="margin-bottom:10px"><div class="la">Главный урок жизни (ячейка №'+karmaCell+')</div><div class="va">'+NM[karmaCell]+'</div><div class="da">'+DESC[karmaCell]+'</div></div>';
 
-  // --- Блок 19: Кармическая задача ---
-  html+='<p class="sect">19. Кармическая задача</p>';
-  html+='<div class="cc" style="margin-bottom:10px">';
-  html+='<div class="la">Главный урок жизни (ячейка №'+karmaCell+')</div>';
-  html+='<div class="va">'+NM[karmaCell]+'</div>';
-  html+='<div class="da">'+DESC[karmaCell]+'</div>';
-  html+='</div>';
-
-  // --- Блок 20: Зона роста ---
   html+='<p class="sect">20. Зона роста (значения 8–14)</p>';
-  if(growthCells.length){
-    html+='<div class="tags">';
-    growthCells.forEach(function(n){html+='<span class="tag" style="background:#1a2030;color:#88bbff">'+n+'. '+NM[n]+' ('+vals[n]+')</span>';});
-    html+='</div>';
-  }else{html+='<div style="font-size:13px;color:#6a5e8a;margin-bottom:8px">Нет ячеек в зоне пробуждения (все выше 14)</div>';}
+  if(growthCells.length){html+='<div class="tags">';growthCells.forEach(function(n){html+='<span class="tag" style="background:#1a2030;color:#88bbff">'+n+'. '+NM[n]+' ('+vals[n]+')</span>';});html+='</div>';}
+  else html+='<div style="font-size:13px;color:#6a5e8a;margin-bottom:8px">Нет ячеек в зоне пробуждения</div>';
 
-  // --- Блок 21: Энергодиагностика ---
-  html+='<p class="sect">21. Энергодиагностика чакр</p>';
-  html+='<div class="diag-row">';
+  html+='<p class="sect">21. Энергодиагностика чакр</p><div class="diag-row">';
   diagAvgs.forEach(function(d){
     var pct=Math.round((d.avg/42)*100);
-    var status=gl(d.avg,'chakra');
-    html+='<div class="diag-bar">';
-    html+='<div class="db-name">'+d.name+'</div>';
-    html+='<div class="db-track"><div class="db-fill" style="width:'+pct+'%;background:'+d.co+'"></div></div>';
-    html+='<div class="db-val">'+d.avg+'</div>';
-    html+='</div>';
-    html+='<div style="font-size:11px;color:#6a5e8a;padding-left:120px;margin-top:-4px;margin-bottom:4px">'+status+'</div>';
+    html+='<div class="diag-bar"><div class="db-name">'+d.name+'</div><div class="db-track"><div class="db-fill" style="width:'+pct+'%;background:'+d.co+'"></div></div><div class="db-val">'+d.avg+'</div></div>';
+    html+='<div style="font-size:11px;color:#6a5e8a;padding-left:120px;margin-top:-4px;margin-bottom:4px">'+gl(d.avg,'chakra')+'</div>';
   });
   html+='</div>';
 
   // --- ГОДОВОЙ ПРОГНОЗ ---
-  html+='<p class="sect">Годовой прогноз</p>';
   var ageNow=calcAge(yyyy,mm,dd,cy,cm);
-  html+='<div style="font-size:12px;color:#6a5e8a;margin-bottom:10px">Возраст: <b style="color:#c4b8ff">'+ageNow+' лет</b> · Формула: base('+base+') + возраст</div>';
+  html+='<p class="sect">Годовой прогноз</p>';
+  html+='<div style="font-size:12px;color:#6a5e8a;margin-bottom:10px">Возраст: <b style="color:#c4b8ff">'+ageNow+' лет</b> · Формула: base('+base+') + возраст → номер ячейки → значение в ней</div>';
   html+='<div class="pg">';
   [cy,cy+1,cy+2,cy+3].forEach(function(yr){
-    var yv=pY(base,yyyy,mm,dd,yr),yEn=ge(yv);
+    var cellN=pY(base,yyyy,mm,dd,yr);
+    var cellV=vals[cellN]; // значение В ячейке!
+    var yEn=ge(cellV);
     var age=calcAge(yyyy,mm,dd,yr,6);
     html+='<div class="pb"><div class="pt">'+yr+' год ('+age+' лет)</div>';
-    html+='<div class="pv" style="color:'+yEn.co+'">яч.'+yv+' — '+yEn.la+'</div>';
-    html+='<div class="pd">'+NM[yv]+'<br>'+yEn.de+'</div></div>';
+    html+='<div class="pv" style="color:'+yEn.co+'">яч. №'+cellN+' / '+cellV+'</div>';
+    html+='<div class="pd">'+NM[cellN]+'<br><span style="color:'+yEn.co+'">'+yEn.la+' — '+yEn.de+'</span></div></div>';
   });
   html+='</div>';
 
   // --- МЕСЯЧНЫЙ ПРОГНОЗ ---
   html+='<p class="sect">Месячный прогноз — '+cy+'</p>';
-  html+='<div style="font-size:12px;color:#6a5e8a;margin-bottom:10px">Формула: base('+base+') + возраст + номер месяца</div>';
+  html+='<div style="font-size:12px;color:#6a5e8a;margin-bottom:10px">Формула: base('+base+') + возраст + номер месяца → номер ячейки → значение в ней</div>';
   html+='<div class="mg">';
   for(var mo=1;mo<=12;mo++){
-    var mv=pM(base,yyyy,mm,dd,cy,mo),mEn=ge(mv),isCur=(mo===cm);
-    html+='<div class="mb'+(isCur?' cur':'')+'" style="background:'+mEn.co+'22;border-color:'+mEn.co+(isCur?';border-width:2px':'')+'">';
-    html+='<div class="mn" style="color:'+mEn.co+'">'+MO[mo-1]+'</div>';
-    html+='<div class="mv">'+mv+'</div>';
-    html+='<div class="ml" style="color:'+mEn.co+'">'+mEn.la+'</div>';
-    html+='</div>';
+    var cellN=pM(base,yyyy,mm,dd,cy,mo);
+    var cellV=vals[cellN]; // значение В ячейке!
+    var mEn=ge(cellV);
+    var isCur=(mo===cm);
+    html+='<div class="mb'+(isCur?' cur':'')+'\" style=\"background:'+mEn.co+'22;border-color:'+mEn.co+(isCur?';border-width:2px':'')+'\"><div class=\"mn\" style=\"color:'+mEn.co+'\">'+MO_NAMES[mo-1]+'</div>';
+    html+='<div class="mv" style="color:#fff">яч.'+cellN+'<br><span style="color:'+mEn.co+'">'+cellV+'</span></div>';
+    html+='<div class="ml" style="color:'+mEn.co+'">'+mEn.la+'</div></div>';
   }
   html+='</div>';
 
   document.getElementById('out').innerHTML=html;
 }
 
-// Ждём действия пользователя
+// === СОВМЕСТИМОСТЬ ===
+function calcCompat(){
+  function getDateFromPrefix(p){
+    return{dd:+document.getElementById(p+'_day').value,mm:+document.getElementById(p+'_month').value,yyyy:+document.getElementById(p+'_year').value};
+  }
+  var A=getDateFromPrefix('a'),B=getDateFromPrefix('b');
+  var aCity=document.getElementById('a_city').value||'';
+  var aName=document.getElementById('a_name').value||'';
+  var bCity=document.getElementById('b_city').value||'';
+  var bName=document.getElementById('b_name').value||'';
+  if(!A.dd||!A.mm||!A.yyyy||!B.dd||!B.mm||!B.yyyy){alert('Заполните даты для обоих людей');return;}
 
-window.addEventListener('load',function(){
-const d=document.getElementById('day');
-const m=document.getElementById('month');
-const y=document.getElementById('year');
+  var bA=calcBase(A.dd,A.mm,A.yyyy,aCity,aName);
+  var bB=calcBase(B.dd,B.mm,B.yyyy,bCity,bName);
+  var vA={},vB={},vC={};
+  for(var n=1;n<=42;n++){vA[n]=cellVal(bA.base,n);vB[n]=cellVal(bB.base,n);}
+  for(var n=1;n<=42;n++){var s=vA[n]+vB[n];while(s>42)s-=42;if(s===0)s=42;vC[n]=s;}
 
-for(let i=1;i<=31;i++){
- let o=document.createElement('option');
- o.value=i;o.textContent=i;
- d.appendChild(o);
+  function avgOf(nums){return Math.round(nums.reduce(function(a,b){return a+vals_c(b);},0)/nums.length);}
+  function vals_c(n){return vC[n];}
+
+  // 3.1 Цель встречи — макс без ячейки 42
+  var meetCell=null,meetMax=-1;
+  for(var n=1;n<=41;n++){if(vC[n]>meetMax||(vC[n]===meetMax&&(meetCell===null||n<meetCell))){meetMax=vC[n];meetCell=n;}}
+
+  // 3.2 Общие таланты ≥29 (без 42)
+  var cTalents=Object.entries(vC).filter(function(e){return e[1]>=29&&+e[0]!==42;}).sort(function(a,b){return b[1]-a[1];});
+
+  // 3.3 Зоны роста ≤7
+  var cZones=Object.entries(vC).filter(function(e){return e[1]<=7;}).sort(function(a,b){return a[1]-b[1];});
+
+  // 3.4 Баланс чакр
+  var cChakraAvgs=LV.map(function(l){
+    var s=l.nums.reduce(function(a,n){return a+vC[n];},0);
+    return{ch:l.ch,co:l.co,avg:Math.round(s/l.nums.length)};
+  });
+
+  // 3.5 Идеальный совместный путь — второй по величине среди 1-41
+  var sortedC=Object.entries(vC).filter(function(e){return +e[0]<=41;}).sort(function(a,b){return b[1]-a[1]||(+a[0])-(+b[0]);});
+  var pathCell=sortedC[1]?+sortedC[1][0]:+sortedC[0][0];
+
+  // 3.6 Дети пары
+  var kidsC=Math.round(LV[1].nums.reduce(function(a,n){return a+vC[n];},0)/LV[1].nums.length);
+
+  // 3.7 Сексуальная совместимость
+  var sexC=Math.round((vC[12]+vC[17])/2);
+
+  // 3.8 Отношения
+  var relC=vC[30];
+
+  // 3.9 Финансы пары
+  var finC=Math.round(LV[2].nums.reduce(function(a,n){return a+vC[n];},0)/LV[2].nums.length);
+
+  var html2='';
+  // Пирамида совместимости
+  html2+='<p class="sect" style="margin-top:0">Пирамида совместимости</p>';
+  html2+='<div style="font-size:13px;color:#8878aa;margin-bottom:10px">Базовое А: <b style="color:#c4b8ff">'+bA.base+'</b> · Базовое Б: <b style="color:#c4b8ff">'+bB.base+'</b></div>';
+  html2+='<div class="pw"><div class="pyr" id="cpyr"></div></div>';
+
+  html2+='<div class="grid2">';
+  html2+='<div class="compat-section"><h4>🎯 3.1 Цель встречи</h4><div style="font-size:18px;font-weight:700;color:#c4b8ff">'+NM[meetCell]+'</div><div style="font-size:12px;color:#8878aa;margin-top:4px">Ячейка №'+meetCell+' · Значение: '+vC[meetCell]+'</div></div>';
+  html2+='<div class="compat-section"><h4>🤝 3.5 Совместный путь</h4><div style="font-size:18px;font-weight:700;color:#c4b8ff">'+NM[pathCell]+'</div><div style="font-size:12px;color:#8878aa;margin-top:4px">Ячейка №'+pathCell+' · Значение: '+vC[pathCell]+'</div></div>';
+  html2+='<div class="compat-section"><h4>👶 3.6 Дети пары</h4><div style="font-size:22px;font-weight:700;color:#c4b8ff">'+kidsC+'</div><div style="font-size:12px;color:#8878aa;margin-top:4px">'+gl(kidsC,'children')+'</div></div>';
+  html2+='<div class="compat-section"><h4>💫 3.7 Сексуальная совместимость</h4><div style="font-size:22px;font-weight:700;color:#c4b8ff">'+sexC+'</div><div style="font-size:12px;color:#8878aa;margin-top:4px">'+gl(sexC,'sexual')+'</div></div>';
+  html2+='<div class="compat-section"><h4>❤️ 3.8 Отношения</h4><div style="font-size:22px;font-weight:700;color:#c4b8ff">'+relC+'</div><div style="font-size:12px;color:#8878aa;margin-top:4px">'+gl(relC,'rel')+'</div></div>';
+  html2+='<div class="compat-section"><h4>💰 3.9 Финансы пары</h4><div style="font-size:22px;font-weight:700;color:#c4b8ff">'+finC+'</div><div style="font-size:12px;color:#8878aa;margin-top:4px">'+gl(finC,'finance')+'</div></div>';
+  html2+='</div>';
+
+  html2+='<div class="compat-section" style="margin-top:10px"><h4>✨ 3.2 Общие таланты (≥29)</h4>';
+  if(cTalents.length){html2+='<div class="tags">';cTalents.forEach(function(e){var en=ge(e[1]);html2+='<span class="tag" style="background:#1a3020;color:#7fdd90">'+e[0]+'. '+NM[+e[0]]+' ('+e[1]+')</span>';});html2+='</div>';}
+  else html2+='<span style="font-size:13px;color:#6a5e8a">Нет ячеек ≥29</span>';
+  html2+='</div>';
+
+  html2+='<div class="compat-section" style="margin-top:10px"><h4>⚠️ 3.3 Зоны роста (≤7)</h4>';
+  if(cZones.length){html2+='<div class="tags">';cZones.forEach(function(e){html2+='<span class="tag" style="background:#2a1020;color:#e88">'+e[0]+'. '+NM[+e[0]]+' ('+e[1]+')</span>';});html2+='</div>';}
+  else html2+='<span style="font-size:13px;color:#6a5e8a">Нет блоков</span>';
+  html2+='</div>';
+
+  html2+='<div class="compat-section" style="margin-top:10px"><h4>⚡ 3.4 Баланс чакр пары</h4><div class="diag-row">';
+  cChakraAvgs.forEach(function(d){
+    var pct=Math.round((d.avg/42)*100);
+    html2+='<div class="diag-bar"><div class="db-name">'+d.ch+'</div><div class="db-track"><div class="db-fill" style="width:'+pct+'%;background:'+d.co+'"></div></div><div class="db-val">'+d.avg+'</div></div>';
+    html2+='<div style="font-size:11px;color:#6a5e8a;padding-left:120px;margin-top:-4px;margin-bottom:4px">'+gl(d.avg,'chakra')+'</div>';
+  });
+  html2+='</div></div>';
+
+  document.getElementById('compat-out').innerHTML=html2;
+  document.getElementById('compat-out').scrollIntoView({behavior:'smooth',block:'start'});
+  buildPyramid(vC,0,document.getElementById('cpyr'));
 }
-
-const months=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
-months.forEach((name,index)=>{
- let o=document.createElement('option');
- o.value=index+1;
- o.textContent=name;
- m.appendChild(o);
-});
-
-const currentYear=new Date().getFullYear();
-for(let yr=currentYear;yr>=1900;yr--){
- let o=document.createElement('option');
- o.value=yr;
- o.textContent=yr;
- y.appendChild(o);
-}
-});
-
-
 </script>
 </body>
 </html>
