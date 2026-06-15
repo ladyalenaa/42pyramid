@@ -5,93 +5,131 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>Пирамида 42 — Леди Алёна</title>
 <style>
+/*
+  ПАЛИТРА (с фото):
+  --bg:       #f7f3f8  — светло-сиреневый фон (почти белый с сиренью)
+  --surface:  #ede6f2  — карточки, формы
+  --surface2: #e4daf0  — чуть темнее, hover
+  --border:   #d5c8e4  — бордюры
+  --accent:   #9b7ebd   — лавандово-фиолетовый (главный акцент) #F172A1
+  --accent2:  #7d5fa0  — тёмно-фиолетовый (заголовки)
+  --accent3:  #b89cc8  — мягкая лаванда
+  --rose:     #c4899a  — пыльная роза (акцент 2)
+  --plum:     #a0607a  — слива (тёмный акцент)
+  --text:     #3d2b55  — основной текст
+  --text2:    #7a6490  — вторичный текст
+  --text3:    #a896bc  — третичный текст
+*/
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',Arial,sans-serif;background:#0f0c1a;color:#e8e4f8;min-height:100vh;padding:20px 16px 50px}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f7f3f8;color:#3d2b55;min-height:100vh;padding:20px 16px 50px}
 .app{max-width:740px;margin:0 auto}
-.brand{text-align:center;margin-bottom:6px;font-size:11px;color:#6a5e8a;letter-spacing:2px;text-transform:uppercase}
-h1{text-align:center;font-size:clamp(22px,5vw,30px);font-weight:700;color:#c4b8ff;margin-bottom:6px;letter-spacing:1px}
-.sub{text-align:center;font-size:24px;font-weight:800;color:#fff;margin-bottom:24px;text-shadow:0 0 10px #7F77DD,0 0 20px #7F77DD}
-.form-wrap{background:#1a1530;border-radius:14px;padding:20px;margin-bottom:20px;border:1px solid #2d2550}
+.brand{text-align:center;margin-bottom:6px;font-size:11px;color:#a896bc;letter-spacing:2px;text-transform:uppercase}
+h1{text-align:center;font-size:clamp(22px,5vw,30px);font-weight:700;color:#7d5fa0;margin-bottom:6px;letter-spacing:1px}
+.sub{text-align:center;font-size:24px;font-weight:800;color:#5c3d7a;margin-bottom:24px;text-shadow:0 1px 0 rgba(255,255,255,.8)}
+
+/* ФОРМА */
+.form-wrap{background:#ede6f2;border-radius:14px;padding:20px;margin-bottom:20px;border:1px solid #d5c8e4;box-shadow:0 2px 12px rgba(125,95,160,.08)}
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .ff{grid-column:1/-1}
-.fg label{font-size:12px;color:#8878aa;display:block;margin-bottom:5px}
-input[type=text],select{width:100%;padding:10px 12px;background:#0f0c1a;border:1px solid #3a3060;border-radius:8px;color:#e8e4f8;font-size:14px}
-input[type=text]:focus,select:focus{outline:none;border-color:#7F77DD}
-select option{background:#1a1530}
-.btn{width:100%;padding:12px;background:#7F77DD;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-top:4px;letter-spacing:.5px;transition:background .2s}
-.btn:hover{background:#9b8ff0}
-.btn:active{background:#534AB7;transform:scale(.98)}
-.btn.btn2{background:#2d2550;margin-top:0}
-.btn.btn2:hover{background:#3d3570}
+.fg label,.compat-person label{font-size:12px;color:#7a6490;display:block;margin-bottom:5px}
+input[type=text],select{width:100%;padding:10px 12px;background:#f7f3f8;border:1px solid #c8b8dc;border-radius:8px;color:#3d2b55;font-size:14px;transition:border-color .2s}
+input[type=text]:focus,select:focus{outline:none;border-color:#F172A1;box-shadow:0 0 0 3px rgba(155,126,189,.15)}
+select option{background:#ede6f2;color:#3d2b55}
+.btn{width:100%;padding:12px;background:linear-gradient(135deg,#F172A1,#7d5fa0);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-top:4px;letter-spacing:.5px;transition:all .2s;box-shadow:0 3px 12px rgba(125,95,160,.3)}
+.btn:hover{background:linear-gradient(135deg,#b99fd4,#F172A1);box-shadow:0 4px 16px rgba(125,95,160,.4)}
+.btn:active{transform:scale(.98)}
+
+/* РЕЗУЛЬТАТ */
 .res{display:none}
-.base-row{text-align:center;font-size:13px;color:#8878aa;margin-bottom:14px;line-height:1.7}
-.base-row strong{color:#FFD700;font-size:18px}
-.pw{display:flex;justify-content:center;margin-bottom:20px;overflow-x:auto;padding:8px}
+.base-row{text-align:center;font-size:13px;color:#7a6490;margin-bottom:14px;line-height:1.7}
+.base-row strong{color:#a0607a;font-size:18px;font-weight:700}
+
+/* ПИРАМИДА */
+.pw{display:flex;justify-content:center;margin-bottom:20px;overflow-x:auto;padding:8px;background:#ede6f2;border-radius:14px;border:1px solid #d5c8e4}
 .pyr{display:flex;flex-direction:column;align-items:center;gap:3px}
 .pr{display:flex;gap:3px}
-.cl{width:clamp(38px,10vw,54px);height:clamp(36px,9vw,50px);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s;position:relative}
+.cl{width:clamp(38px,10vw,54px);height:clamp(36px,9vw,50px);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative}
 .cl:hover{transform:scale(1.12);z-index:10}
-.cl.bh{box-shadow:0 0 0 3px #FFD700,0 0 18px #FFD70077;z-index:3;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 3px #FFD700,0 0 18px #FFD70077}50%{box-shadow:0 0 0 3px #FFD700,0 0 28px #FFD700aa}}
-.cl .cn{font-size:clamp(8px,2vw,10px);font-weight:600;opacity:.7;line-height:1;color:#fff}
-.cl .dv{width:22px;height:1px;margin:2px 0;background:rgba(255,255,255,.35)}
+.cl.bh{box-shadow:0 0 0 3px #a0607a,0 0 16px rgba(160,96,122,.5);z-index:3;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px #a0607a,0 0 16px rgba(160,96,122,.5)}50%{box-shadow:0 0 0 3px #a0607a,0 0 26px rgba(160,96,122,.7)}}
+.cl .cn{font-size:clamp(8px,2vw,10px);font-weight:600;opacity:.8;line-height:1;color:#fff}
+.cl .dv{width:22px;height:1px;margin:2px 0;background:rgba(255,255,255,.4)}
 .cl .cv{font-size:clamp(12px,3vw,16px);font-weight:800;color:#fff;line-height:1}
-.sect{font-size:15px;font-weight:600;color:#c4b8ff;margin:20px 0 10px;border-left:3px solid #7F77DD;padding-left:10px}
+
+/* СЕКЦИИ */
+.sect{font-size:15px;font-weight:600;color:#7d5fa0;margin:20px 0 10px;border-left:3px solid #F172A1;padding-left:10px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
-.cc{background:#1a1530;border-radius:10px;padding:12px 14px;border:1px solid #2d2550}
-.cc .la{font-size:11px;color:#8878aa;margin-bottom:4px}
-.cc .va{font-size:22px;font-weight:700;color:#c4b8ff}
-.cc .da{font-size:12px;color:#8878aa;margin-top:3px;line-height:1.4}
+
+/* КАРТОЧКИ */
+.cc{background:#ede6f2;border-radius:10px;padding:12px 14px;border:1px solid #d5c8e4;transition:box-shadow .2s}
+.cc:hover{box-shadow:0 2px 12px rgba(125,95,160,.12)}
+.cc .la{font-size:11px;color:#a896bc;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.cc .va{font-size:22px;font-weight:700;color:#7d5fa0}
+.cc .da{font-size:12px;color:#7a6490;margin-top:3px;line-height:1.4}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
-.tag{background:#2d2550;color:#c4b8ff;border-radius:6px;padding:4px 10px;font-size:12px;line-height:1.4}
+.tag{background:#e4daf0;color:#7d5fa0;border-radius:6px;padding:4px 10px;font-size:12px;line-height:1.4;border:1px solid #cebfe0}
+
+/* ПРОГНОЗЫ */
 .pg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.pb{background:#1a1530;border-radius:10px;padding:14px;border:1px solid #2d2550}
-.pb .pt{font-size:12px;color:#8878aa;margin-bottom:5px}
+.pb{background:#ede6f2;border-radius:10px;padding:14px;border:1px solid #d5c8e4}
+.pb .pt{font-size:12px;color:#a896bc;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
 .pb .pv{font-size:17px;font-weight:700;line-height:1.3}
-.pb .pd{font-size:12px;color:#6a5e8a;margin-top:3px;line-height:1.4}
+.pb .pd{font-size:12px;color:#7a6490;margin-top:3px;line-height:1.4}
 .mg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
-.mb{border-radius:8px;padding:10px 8px;text-align:center;border:1px solid transparent}
+.mb{border-radius:10px;padding:10px 8px;text-align:center;border:1px solid transparent;background:#ede6f2}
 .mb .mn{font-size:11px;font-weight:600;margin-bottom:3px}
-.mb .mv{font-size:14px;font-weight:800;color:#fff;line-height:1.3}
+.mb .mv{font-size:14px;font-weight:800;color:#3d2b55;line-height:1.3}
 .mb .ml{font-size:10px;opacity:.8;margin-top:2px}
-.mb.cur{border-width:2px}
+.mb.cur{border-width:2px;background:#e4daf0}
+
+/* ЛЕГЕНДА */
 .lg{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px}
-.li{display:flex;align-items:center;gap:5px;font-size:12px;color:#8878aa}
+.li{display:flex;align-items:center;gap:5px;font-size:12px;color:#7a6490}
 .ld{width:12px;height:12px;border-radius:3px}
-.tp{position:fixed;background:#13102a;color:#e8e4f8;border-radius:10px;padding:10px 14px;font-size:12px;pointer-events:none;z-index:9999;max-width:220px;display:none;line-height:1.6;border:1px solid #2d2550;box-shadow:0 4px 20px rgba(0,0,0,.6)}
-.aura-dot{width:60px;height:60px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;margin:6px 0}
+
+/* ТУЛТИП */
+.tp{position:fixed;background:#fff;color:#3d2b55;border-radius:10px;padding:10px 14px;font-size:12px;pointer-events:none;z-index:9999;max-width:220px;display:none;line-height:1.6;border:1px solid #d5c8e4;box-shadow:0 4px 20px rgba(125,95,160,.2)}
+
+/* АУРА */
+.aura-dot{width:60px;height:60px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;margin:6px 0;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+
+/* ДИАГНОСТИКА */
 .diag-row{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
 .diag-bar{display:flex;align-items:center;gap:10px;font-size:12px}
-.diag-bar .db-name{width:110px;color:#8878aa;flex-shrink:0}
-.diag-bar .db-track{flex:1;height:10px;background:#1e1940;border-radius:5px;overflow:hidden}
+.diag-bar .db-name{width:110px;color:#7a6490;flex-shrink:0}
+.diag-bar .db-track{flex:1;height:10px;background:#e4daf0;border-radius:5px;overflow:hidden}
 .diag-bar .db-fill{height:100%;border-radius:5px}
-.diag-bar .db-val{width:30px;text-align:right;font-weight:600;color:#c4b8ff}
+.diag-bar .db-val{width:30px;text-align:right;font-weight:600;color:#7d5fa0}
+
+/* ТАБЛИЦА ГОДОВ */
 .key-years{margin-bottom:12px}
 .ky-table{width:100%;border-collapse:collapse;font-size:13px}
-.ky-table th{padding:7px 10px;color:#8878aa;font-weight:500;text-align:left;border-bottom:1px solid #2d2550;font-size:12px}
-.ky-table td{padding:7px 10px;border-bottom:1px solid #1e1940;color:#e8e4f8}
+.ky-table th{padding:7px 10px;color:#a896bc;font-weight:500;text-align:left;border-bottom:1px solid #d5c8e4;font-size:12px;background:#e4daf0;text-transform:uppercase;letter-spacing:.4px}
+.ky-table td{padding:7px 10px;border-bottom:1px solid #e4daf0;color:#3d2b55}
 .ky-table tr:last-child td{border-bottom:none}
-.ky-table .star{color:#FFD700;font-size:14px}
-.compat-form{background:#1a1530;border-radius:12px;padding:16px;border:1px solid #2d2550;margin-bottom:14px}
-.compat-form h3{font-size:14px;color:#c4b8ff;margin-bottom:12px}
+.ky-table tr:hover td{background:#f0eaf6}
+.ky-table .star{color:#a0607a;font-size:14px}
+
+/* СОВМЕСТИМОСТЬ */
 .compat-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.compat-person{background:#13102a;border-radius:8px;padding:12px;border:1px solid #1e1940}
-.compat-person h4{font-size:12px;color:#8878aa;margin-bottom:8px}
-.compat-person label{font-size:11px;color:#6a5e8a;display:block;margin-bottom:3px;margin-top:6px}
-.compat-person select,.compat-person input{font-size:13px;padding:7px 10px}
-.cpyr{display:flex;flex-direction:column;align-items:center;gap:3px}
-.compat-section{background:#1a1530;border-radius:10px;padding:14px;border:1px solid #2d2550;margin-bottom:10px}
-.compat-section h4{font-size:13px;color:#c4b8ff;font-weight:600;margin-bottom:8px}
-/* TAB SWITCHER */
+.compat-person{background:#f7f3f8;border-radius:10px;padding:14px;border:1px solid #d5c8e4}
+.compat-person h4{font-size:13px;color:#7d5fa0;font-weight:600;margin-bottom:8px}
+.compat-person select,.compat-person input{font-size:13px;padding:8px 10px}
+.compat-section{background:#ede6f2;border-radius:10px;padding:14px;border:1px solid #d5c8e4;margin-bottom:10px}
+.compat-section h4{font-size:13px;color:#7d5fa0;font-weight:600;margin-bottom:8px}
+
+/* ТАБЫ */
 .tab-wrap{margin-bottom:20px}
-.tab-track{position:relative;display:flex;background:#1a1530;border-radius:12px;padding:4px;border:1px solid #2d2550}
-.tab-slider{position:absolute;top:4px;left:4px;height:calc(100% - 8px);border-radius:9px;background:linear-gradient(135deg,#7F77DD,#534AB7);transition:transform .3s cubic-bezier(.4,0,.2,1),width .3s cubic-bezier(.4,0,.2,1);box-shadow:0 2px 12px rgba(127,119,221,.4);z-index:0}
-.tab-btn{flex:1;position:relative;z-index:1;padding:11px 8px;border:none;background:transparent;color:#8878aa;font-size:14px;font-weight:500;cursor:pointer;border-radius:9px;transition:color .25s;white-space:nowrap}
+.tab-track{position:relative;display:flex;background:#ede6f2;border-radius:12px;padding:4px;border:1px solid #d5c8e4;box-shadow:inset 0 1px 3px rgba(125,95,160,.1)}
+.tab-slider{position:absolute;top:4px;left:4px;height:calc(100% - 8px);border-radius:9px;background:linear-gradient(135deg,#F172A1,#7d5fa0);transition:transform .3s cubic-bezier(.4,0,.2,1),width .3s cubic-bezier(.4,0,.2,1);box-shadow:0 2px 10px rgba(125,95,160,.35);z-index:0}
+.tab-btn{flex:1;position:relative;z-index:1;padding:11px 8px;border:none;background:transparent;color:#7a6490;font-size:14px;font-weight:500;cursor:pointer;border-radius:9px;transition:color .25s;white-space:nowrap}
 .tab-btn.active{color:#fff;font-weight:600}
 .panel{animation:fadeIn .3s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-/* end tabs */
+
+/* АДАПТИВ */
+@media(max-width:600px){
   .fg,.grid2,.grid3,.pg,.compat-pair{grid-template-columns:1fr}
   .ff{grid-column:1}
   .mg{grid-template-columns:repeat(3,1fr)}
@@ -108,7 +146,7 @@ select option{background:#1a1530}
 <body>
 <div class="app">
   <div class="brand">Авторская система самопознания</div>
-  <h1>Пирамида 42</h1>
+  <h1>🔺 Пирамида 42</h1>
   <p class="sub">✨ Персональная карта Леди Алёны ✨</p>
 
   <!-- TAB SWITCHER -->
@@ -150,7 +188,7 @@ select option{background:#1a1530}
     <div class="form-wrap">
       <div class="compat-pair">
         <div class="compat-person">
-          <h4>Партнёр 1</h4>
+          <h4>Партрнёр 1</h4>
           <label>День / Месяц / Год</label>
           <div style="display:grid;grid-template-columns:1fr 2fr 1.3fr;gap:6px;margin-bottom:8px">
             <select id="a_day"><option value="">День</option></select>
@@ -160,10 +198,10 @@ select option{background:#1a1530}
           <label>Город рождения</label>
           <input type="text" id="a_city" placeholder=" " style="margin-bottom:8px">
           <label>Имя</label>
-          <input type="text" id="a_name" placeholder="">
+          <input type="text" id="a_name" placeholder=" ">
         </div>
         <div class="compat-person">
-          <h4>Партнёр 2</h4>
+          <h4>Партрнёр 2</h4>
           <label>День / Месяц / Год</label>
           <div style="display:grid;grid-template-columns:1fr 2fr 1.3fr;gap:6px;margin-bottom:8px">
             <select id="b_day"><option value="">День</option></select>
@@ -300,7 +338,7 @@ function addTip(cell,n,v){
   cell.addEventListener('mouseenter',function(e){
     var t=document.getElementById('tp'),en=ge(v);
     t.style.display='block';
-    t.innerHTML='<b style="color:#c4b8ff">'+n+'. '+NM[n]+'</b><br>Значение: <b style="color:#FFD700">'+v+'</b><br><span style="color:'+en.co+'">'+en.la+'</span><br><span style="color:#6a5e8a;font-size:11px">'+DESC[n]+'</span>';
+    t.innerHTML='<b style="color:#7d5fa0">'+n+'. '+NM[n]+'</b><br>Значение: <b style="color:#c4516a">'+v+'</b><br><span style="color:'+en.co+'">'+en.la+'</span><br><span style="color:#a896bc;font-size:11px">'+DESC[n]+'</span>';
     t.style.left=(e.clientX+16)+'px';t.style.top=(e.clientY-14)+'px';
   });
   cell.addEventListener('mousemove',function(e){var t=document.getElementById('tp');t.style.left=(e.clientX+16)+'px';t.style.top=(e.clientY-14)+'px';});
@@ -457,7 +495,7 @@ function go(){
   var html='';
 
   html+='<p class="sect">1. Текущий сценарий</p>';
-  html+='<div class="cc" style="margin-bottom:10px"><div class="la">Ячейка №'+scenCell+'</div><div class="va" style="color:'+scenEn.co+'">'+NM[scenCell]+'</div><div class="da">Значение: <b>'+scenVal+'</b> · '+scenEn.la+' — '+scenEn.de+'</div><div class="da" style="margin-top:4px;color:#7a7095">'+DESC[scenCell]+'</div></div>';
+  html+='<div class="cc" style="margin-bottom:10px"><div class="la">Ячейка №'+scenCell+'</div><div class="va" style="color:'+scenEn.co+'">'+NM[scenCell]+'</div><div class="da">Значение: <b>'+scenVal+'</b> · '+scenEn.la+' — '+scenEn.de+'</div><div class="da" style="margin-top:4px;color:#9880b0">'+DESC[scenCell]+'</div></div>';
 
   html+='<p class="sect">2. Таланты (по одному из каждой чакры)</p><div class="grid2" style="margin-bottom:10px">';
   talents.forEach(function(t){var en=ge(t.val);html+='<div class="cc"><div class="la">'+t.chakra+'</div><div class="va" style="color:'+en.co+'">'+t.val+'</div><div class="da">'+t.cell+'. '+NM[t.cell]+'</div></div>';});
@@ -481,7 +519,7 @@ function go(){
   html+=card('12. Духовный рост (макс. ячейка, без №42)',spiritVal,gl(spiritVal,'spirit'),'Ячейка №'+spiritCell);
   html+='</div>';
 
-  html+='<p class="sect">13. Цвет ауры</p><div class="cc" style="margin-bottom:10px;display:flex;align-items:center;gap:16px"><div class="aura-dot" style="background:'+auraChakra.co+'">'+maxAvg+'</div><div><div style="font-size:18px;font-weight:700;color:'+auraChakra.co+'">'+auraChakra.aura.charAt(0).toUpperCase()+auraChakra.aura.slice(1)+'</div><div style="font-size:13px;color:#8878aa;margin-top:3px">'+auraChakra.ch+' · среднее '+maxAvg+'</div></div></div>';
+  html+='<p class="sect">13. Цвет ауры</p><div class="cc" style="margin-bottom:10px;display:flex;align-items:center;gap:16px"><div class="aura-dot" style="background:'+auraChakra.co+'">'+maxAvg+'</div><div><div style="font-size:18px;font-weight:700;color:'+auraChakra.co+'">'+auraChakra.aura.charAt(0).toUpperCase()+auraChakra.aura.slice(1)+'</div><div style="font-size:13px;color:#7a6490;margin-top:3px">'+auraChakra.ch+' · среднее '+maxAvg+'</div></div></div>';
 
   var enE=ge(energyVal);
   html+='<p class="sect">14. Уровень энергии</p><div class="cc" style="margin-bottom:10px"><div class="la">Ячейка базового числа №'+base+'</div><div class="va" style="color:'+enE.co+'">'+energyVal+' — '+enE.la+'</div><div class="da">'+gl(energyVal,'energy')+'</div></div>';
@@ -490,14 +528,14 @@ function go(){
 
   // 16. Ключевые годы — ТАБЛИЦА
   html+='<p class="sect">16. Ключевые годы жизни</p>';
-  html+='<div style="font-size:12px;color:#6a5e8a;margin-bottom:8px">⭐ — топ-5 лет &nbsp;·&nbsp; ← текущий год &nbsp;·&nbsp; Формула: base('+base+') + возраст − 42</div>';
-  html+='<div class="key-years" style="max-height:400px;overflow-y:auto;border-radius:10px;border:1px solid #2d2550"><table class="ky-table">';
-  html+='<thead style="position:sticky;top:0;background:#1a1530;z-index:1"><tr><th>Год</th><th>Возраст</th><th>Активная ячейка</th><th>Сценарий</th><th>Число в ячейке</th><th>Уровень энергии</th><th>Ключевой</th></tr></thead><tbody>';
+  html+='<div style="font-size:12px;color:#a896bc;margin-bottom:8px">⭐ — топ-5 лет &nbsp;·&nbsp; ← текущий год &nbsp;·&nbsp; Формула: base('+base+') + возраст − 42</div>';
+  html+='<div class="key-years" style="max-height:400px;overflow-y:auto;border-radius:10px;border:1px solid #d5c8e4"><table class="ky-table">';
+  html+='<thead style="position:sticky;top:0;background:#e4daf0;z-index:1"><tr><th>Год</th><th>Возраст</th><th>Активная ячейка</th><th>Сценарий</th><th>Число в ячейке</th><th>Уровень энергии</th><th>Ключевой</th></tr></thead><tbody>';
   tableRows.forEach(function(r){
-    html+='<tr style="'+(r.isCurYear?'background:rgba(255,215,0,0.08);border-left:3px solid #FFD700':r.isKey?'background:rgba(127,119,221,0.1)':'')+'">';
-    html+='<td style="font-weight:600;color:'+(r.isCurYear?'#FFD700':r.isKey?'#c4b8ff':'#e8e4f8')+'">'+r.yr+(r.isCurYear?' ←':'')+'</td>';
+    html+='<tr style="'+(r.isCurYear?'background:rgba(196,81,106,0.08);border-left:3px solid #c4516a':r.isKey?'background:rgba(155,126,189,0.12)':'')+'">';
+    html+='<td style="font-weight:600;color:'+(r.isCurYear?'#a0607a':r.isKey?'#7d5fa0':'#3d2b55')+'">'+r.yr+(r.isCurYear?' ←':'')+'</td>';
     html+='<td>'+r.age+'</td>';
-    html+='<td style="color:#c4b8ff">№'+r.cell+'</td>';
+    html+='<td style="color:#7d5fa0">№'+r.cell+'</td>';
     html+='<td style="font-size:12px">'+NM[r.cell]+'</td>';
     html+='<td style="font-weight:700;color:'+r.en.co+'">'+r.val+'</td>';
     html+='<td style="font-size:12px;color:'+r.en.co+'">'+r.en.la+'</td>';
@@ -515,21 +553,21 @@ function go(){
   html+='<p class="sect">19. Кармическая задача</p><div class="cc" style="margin-bottom:10px"><div class="la">Главный урок жизни (ячейка №'+karmaCell+')</div><div class="va">'+NM[karmaCell]+'</div><div class="da">'+DESC[karmaCell]+'</div></div>';
 
   html+='<p class="sect">20. Зона роста (значения 8–14)</p>';
-  if(growthCells.length){html+='<div class="tags">';growthCells.forEach(function(n){html+='<span class="tag" style="background:#1a2030;color:#88bbff">'+n+'. '+NM[n]+' ('+vals[n]+')</span>';});html+='</div>';}
-  else html+='<div style="font-size:13px;color:#6a5e8a;margin-bottom:8px">Нет ячеек в зоне пробуждения</div>';
+  if(growthCells.length){html+='<div class="tags">';growthCells.forEach(function(n){html+='<span class="tag" style="background:#e8e0f0;color:#7d5fa0">'+n+'. '+NM[n]+' ('+vals[n]+')</span>';});html+='</div>';}
+  else html+='<div style="font-size:13px;color:#a896bc;margin-bottom:8px">Нет ячеек в зоне пробуждения</div>';
 
   html+='<p class="sect">21. Энергодиагностика чакр</p><div class="diag-row">';
   diagAvgs.forEach(function(d){
     var pct=Math.round((d.avg/42)*100);
     html+='<div class="diag-bar"><div class="db-name">'+d.name+'</div><div class="db-track"><div class="db-fill" style="width:'+pct+'%;background:'+d.co+'"></div></div><div class="db-val">'+d.avg+'</div></div>';
-    html+='<div style="font-size:11px;color:#6a5e8a;padding-left:120px;margin-top:-4px;margin-bottom:4px">'+gl(d.avg,'chakra')+'</div>';
+    html+='<div style="font-size:11px;color:#a896bc;padding-left:120px;margin-top:-4px;margin-bottom:4px">'+gl(d.avg,'chakra')+'</div>';
   });
   html+='</div>';
 
   // --- ГОДОВОЙ ПРОГНОЗ ---
   var ageNow=calcAge(yyyy,mm,dd,cy,cm);
   html+='<p class="sect">Годовой прогноз</p>';
-  html+='<div style="font-size:12px;color:#6a5e8a;margin-bottom:10px">Возраст: <b style="color:#c4b8ff">'+ageNow+' лет</b> · Формула: base('+base+') + возраст → номер ячейки → значение в ней</div>';
+  html+='<div style="font-size:12px;color:#a896bc;margin-bottom:10px">Возраст: <b style="color:#7d5fa0">'+ageNow+' лет</b> · Формула: base('+base+') + возраст → номер ячейки → значение в ней</div>';
   html+='<div class="pg">';
   [cy,cy+1,cy+2,cy+3].forEach(function(yr){
     var cellN=pY(base,yyyy,mm,dd,yr);
@@ -544,7 +582,7 @@ function go(){
 
   // --- МЕСЯЧНЫЙ ПРОГНОЗ ---
   html+='<p class="sect">Месячный прогноз — '+cy+'</p>';
-  html+='<div style="font-size:12px;color:#6a5e8a;margin-bottom:10px">Формула: base('+base+') + возраст + номер месяца → номер ячейки → значение в ней</div>';
+  html+='<div style="font-size:12px;color:#a896bc;margin-bottom:10px">Формула: base('+base+') + возраст + номер месяца → номер ячейки → значение в ней</div>';
   html+='<div class="mg">';
   for(var mo=1;mo<=12;mo++){
     var cellN=pM(base,yyyy,mm,dd,cy,mo);
@@ -616,33 +654,33 @@ function calcCompat(){
   var html2='';
   // Пирамида совместимости
   html2+='<p class="sect" style="margin-top:0">Пирамида совместимости</p>';
-  html2+='<div style="font-size:13px;color:#8878aa;margin-bottom:10px">Базовое А: <b style="color:#c4b8ff">'+bA.base+'</b> · Базовое Б: <b style="color:#c4b8ff">'+bB.base+'</b></div>';
+  html2+='<div style="font-size:13px;color:#7a6490;margin-bottom:10px">Базовое А: <b style="color:#7d5fa0">'+bA.base+'</b> · Базовое Б: <b style="color:#7d5fa0">'+bB.base+'</b></div>';
   html2+='<div class="pw"><div class="pyr" id="cpyr"></div></div>';
 
   html2+='<div class="grid2">';
-  html2+='<div class="compat-section"><h4>🎯 3.1 Цель встречи</h4><div style="font-size:18px;font-weight:700;color:#c4b8ff">'+NM[meetCell]+'</div><div style="font-size:12px;color:#8878aa;margin-top:4px">Ячейка №'+meetCell+' · Значение: '+vC[meetCell]+'</div></div>';
-  html2+='<div class="compat-section"><h4>🤝 3.5 Совместный путь</h4><div style="font-size:18px;font-weight:700;color:#c4b8ff">'+NM[pathCell]+'</div><div style="font-size:12px;color:#8878aa;margin-top:4px">Ячейка №'+pathCell+' · Значение: '+vC[pathCell]+'</div></div>';
-  html2+='<div class="compat-section"><h4>👶 3.6 Дети пары</h4><div style="font-size:22px;font-weight:700;color:#c4b8ff">'+kidsC+'</div><div style="font-size:12px;color:#8878aa;margin-top:4px">'+gl(kidsC,'children')+'</div></div>';
-  html2+='<div class="compat-section"><h4>💫 3.7 Сексуальная совместимость</h4><div style="font-size:22px;font-weight:700;color:#c4b8ff">'+sexC+'</div><div style="font-size:12px;color:#8878aa;margin-top:4px">'+gl(sexC,'sexual')+'</div></div>';
-  html2+='<div class="compat-section"><h4>❤️ 3.8 Отношения</h4><div style="font-size:22px;font-weight:700;color:#c4b8ff">'+relC+'</div><div style="font-size:12px;color:#8878aa;margin-top:4px">'+gl(relC,'rel')+'</div></div>';
-  html2+='<div class="compat-section"><h4>💰 3.9 Финансы пары</h4><div style="font-size:22px;font-weight:700;color:#c4b8ff">'+finC+'</div><div style="font-size:12px;color:#8878aa;margin-top:4px">'+gl(finC,'finance')+'</div></div>';
+  html2+='<div class="compat-section"><h4>🎯 3.1 Цель встречи</h4><div style="font-size:18px;font-weight:700;color:#7d5fa0">'+NM[meetCell]+'</div><div style="font-size:12px;color:#7a6490;margin-top:4px">Ячейка №'+meetCell+' · Значение: '+vC[meetCell]+'</div></div>';
+  html2+='<div class="compat-section"><h4>🤝 3.5 Совместный путь</h4><div style="font-size:18px;font-weight:700;color:#7d5fa0">'+NM[pathCell]+'</div><div style="font-size:12px;color:#7a6490;margin-top:4px">Ячейка №'+pathCell+' · Значение: '+vC[pathCell]+'</div></div>';
+  html2+='<div class="compat-section"><h4>👶 3.6 Дети пары</h4><div style="font-size:22px;font-weight:700;color:#7d5fa0">'+kidsC+'</div><div style="font-size:12px;color:#7a6490;margin-top:4px">'+gl(kidsC,'children')+'</div></div>';
+  html2+='<div class="compat-section"><h4>💫 3.7 Сексуальная совместимость</h4><div style="font-size:22px;font-weight:700;color:#7d5fa0">'+sexC+'</div><div style="font-size:12px;color:#7a6490;margin-top:4px">'+gl(sexC,'sexual')+'</div></div>';
+  html2+='<div class="compat-section"><h4>❤️ 3.8 Отношения</h4><div style="font-size:22px;font-weight:700;color:#7d5fa0">'+relC+'</div><div style="font-size:12px;color:#7a6490;margin-top:4px">'+gl(relC,'rel')+'</div></div>';
+  html2+='<div class="compat-section"><h4>💰 3.9 Финансы пары</h4><div style="font-size:22px;font-weight:700;color:#7d5fa0">'+finC+'</div><div style="font-size:12px;color:#7a6490;margin-top:4px">'+gl(finC,'finance')+'</div></div>';
   html2+='</div>';
 
   html2+='<div class="compat-section" style="margin-top:10px"><h4>✨ 3.2 Общие таланты (≥29)</h4>';
-  if(cTalents.length){html2+='<div class="tags">';cTalents.forEach(function(e){var en=ge(e[1]);html2+='<span class="tag" style="background:#1a3020;color:#7fdd90">'+e[0]+'. '+NM[+e[0]]+' ('+e[1]+')</span>';});html2+='</div>';}
-  else html2+='<span style="font-size:13px;color:#6a5e8a">Нет ячеек ≥29</span>';
+  if(cTalents.length){html2+='<div class="tags">';cTalents.forEach(function(e){var en=ge(e[1]);html2+='<span class="tag" style="background:#e0f0e8;color:#2e7a4a">'+e[0]+'. '+NM[+e[0]]+' ('+e[1]+')</span>';});html2+='</div>';}
+  else html2+='<span style="font-size:13px;color:#a896bc">Нет ячеек ≥29</span>';
   html2+='</div>';
 
   html2+='<div class="compat-section" style="margin-top:10px"><h4>⚠️ 3.3 Зоны роста (≤7)</h4>';
-  if(cZones.length){html2+='<div class="tags">';cZones.forEach(function(e){html2+='<span class="tag" style="background:#2a1020;color:#e88">'+e[0]+'. '+NM[+e[0]]+' ('+e[1]+')</span>';});html2+='</div>';}
-  else html2+='<span style="font-size:13px;color:#6a5e8a">Нет блоков</span>';
+  if(cZones.length){html2+='<div class="tags">';cZones.forEach(function(e){html2+='<span class="tag" style="background:#f0e0e4;color:#b03050">'+e[0]+'. '+NM[+e[0]]+' ('+e[1]+')</span>';});html2+='</div>';}
+  else html2+='<span style="font-size:13px;color:#a896bc">Нет блоков</span>';
   html2+='</div>';
 
   html2+='<div class="compat-section" style="margin-top:10px"><h4>⚡ 3.4 Баланс чакр пары</h4><div class="diag-row">';
   cChakraAvgs.forEach(function(d){
     var pct=Math.round((d.avg/42)*100);
     html2+='<div class="diag-bar"><div class="db-name">'+d.ch+'</div><div class="db-track"><div class="db-fill" style="width:'+pct+'%;background:'+d.co+'"></div></div><div class="db-val">'+d.avg+'</div></div>';
-    html2+='<div style="font-size:11px;color:#6a5e8a;padding-left:120px;margin-top:-4px;margin-bottom:4px">'+gl(d.avg,'chakra')+'</div>';
+    html2+='<div style="font-size:11px;color:#a896bc;padding-left:120px;margin-top:-4px;margin-bottom:4px">'+gl(d.avg,'chakra')+'</div>';
   });
   html2+='</div></div>';
 
