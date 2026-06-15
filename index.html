@@ -146,7 +146,7 @@ select option{background:#ede6f2;color:#3d2b55}
 <body>
 <div class="app">
   <div class="brand">Авторская система самопознания</div>
-  <h1>Пирамида 42</h1>
+  <h1>🔺 Пирамида 42</h1>
   <p class="sub">✨ Персональная карта Леди Алёны ✨</p>
 
   <!-- TAB SWITCHER -->
@@ -265,10 +265,10 @@ function fillDateSelects(prefix){
 // === ДАННЫЕ ===
 var LV=[
   {nums:[1,2,3,4,9,5,6,7,8],  ch:'Муладхара',    co:'#c42020',aura:'красный'},
-  {nums:[10,11,12,13,14,15,16,17],ch:'Свадхистана',co:'#c05010',aura:'оранжевый'},
+  {nums:[10,11,12,13,14,15,16,17],ch:'Свадхистхана',co:'#c05010',aura:'оранжевый'},
   {nums:[18,19,20,24,21,22,23],ch:'Манипура',     co:'#b88008',aura:'жёлтый'},
   {nums:[25,26,27,28,29,30],   ch:'Анахата',      co:'#1e6e0e',aura:'зелёный'},
-  {nums:[31,32,35,33,34],      ch:'Вишудха',     co:'#0e80a8',aura:'голубой'},
+  {nums:[31,32,35,33,34],      ch:'Вишуддха',     co:'#0e80a8',aura:'голубой'},
   {nums:[36,37,38,39],         ch:'Аджна',        co:'#1040a8',aura:'синий'},
   {nums:[40,42,41],            ch:'Сахасрара',    co:'#5820a8',aura:'фиолетовый'}
 ];
@@ -470,7 +470,7 @@ function go(){
   tableRows.forEach(function(r){r.isKey=r.val>=threshold;});
 
   // 17. Характер
-  var charCells=[1,9,10,17,18,24,25,30,31,35,36,42];
+  var charCells=[1,9,10,17,18,24,25,30,31,35,36,41];
 
   // 18. Идеальный партнёр
   var p1=base+21,p2=base-21;
@@ -527,7 +527,7 @@ function go(){
   html+='<p class="sect">15. Место в истории</p><div class="cc" style="margin-bottom:10px"><div class="la">'+auraChakra.ch+' · ячейка №'+histCell+' (без №42)</div><div class="va">'+NM[histCell]+'</div><div class="da">Главный вклад: '+DESC[histCell]+'</div></div>';
 
   // 16. Ключевые годы — ТАБЛИЦА
-  html+='<p class="sect">16. Ключевые годы жизни</p>';
+  html+='<p class="sect">16. От 0 до 126 лет</p>';
   html+='<div style="font-size:12px;color:#a896bc;margin-bottom:8px">⭐ — топ-5 лет &nbsp;·&nbsp; ← текущий год &nbsp;·&nbsp; Формула: base('+base+') + возраст − 42</div>';
   html+='<div class="key-years" style="max-height:400px;overflow-y:auto;border-radius:10px;border:1px solid #d5c8e4"><table class="ky-table">';
   html+='<thead style="position:sticky;top:0;background:#e4daf0;z-index:1"><tr><th>Год</th><th>Возраст</th><th>Активная ячейка</th><th>Сценарий</th><th>Число в ячейке</th><th>Уровень энергии</th><th>Ключевой</th></tr></thead><tbody>';
