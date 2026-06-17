@@ -416,8 +416,9 @@ function go(){
   var minV=sorted[0][1];
   var limitCells=sorted.filter(function(e){return e[1]<=minV+2;}).slice(0,2).map(function(e){return +e[0];});
 
-  // 4. Прошлая жизнь
-  var pastN=+sorted[0][0];
+  // 4. Прошлая жизнь — ячейка с наименьшим НОМЕРОМ среди ячеек с минимальным значением
+  var pastMinVal=sorted[0][1];
+  var pastN=+sorted.filter(function(e){return e[1]===pastMinVal;}).sort(function(a,b){return +a[0]-(+b[0]);})[0][0];
 
   // 5. Финансы
   var finAvg=chakraAvg(2);
@@ -482,8 +483,10 @@ function go(){
   else if(base-21>=1)partnerCell=base-21;
   else partnerCell=1;
 
-  // 19. Кармическая задача
-  var karmaCell=+sorted[0][0];
+  // 19. Кармическая задача — мин номер среди ячеек со ВТОРЫМ минимальным значением
+  var pastMinVal2=sorted[0][1];
+  var secondMinVal=sorted.map(function(e){return e[1];}).find(function(v){return v>pastMinVal2;})||pastMinVal2;
+  var karmaCell=+sorted.filter(function(e){return e[1]===secondMinVal;}).sort(function(a,b){return +a[0]-(+b[0]);})[0][0];
 
   // 20. Зона роста
   var growthCells=Object.entries(vals).filter(function(e){return e[1]>=8&&e[1]<=14;}).map(function(e){return +e[0];});
@@ -491,8 +494,18 @@ function go(){
   // 21. Энергодиагностика
   var diagAvgs=LV.map(function(l,i){return{name:l.ch,co:l.co,avg:chakraAvg(i)};});
 
-  // ==== РЕНДЕР ====
+  // === КЛИЕНТСКАЯ ССЫЛКА ===
+  var clientData=JSON.stringify({dd:dd,mm:mm,yyyy:yyyy,city:city,name:name});
+  var clientHash=btoa(unescape(encodeURIComponent(clientData)));
+  var clientUrl='https://ladyalenaa.github.io/42pyramid/client.html?d='+encodeURIComponent(clientHash);
+
   var html='';
+  html+='<div style="background:#fdf0f5;border:1px solid #f0c8d8;border-radius:10px;padding:14px 16px;margin-bottom:16px">';
+  html+='<div style="font-size:12px;color:#a0607a;font-weight:600;margin-bottom:6px">🔗 Клиентская ссылка для '+name+'</div>';
+  html+='<div style="font-size:11px;color:#7a6490;word-break:break-all;margin-bottom:8px">'+clientUrl+'</div>';
+  html+='<button onclick="navigator.clipboard.writeText(decodeURIComponent(\'' + encodeURIComponent(clientUrl) + '\'));this.textContent=\'✅ Скопировано!\';setTimeout(function(){this.textContent=\'📋 Скопировать ссылку\';}.bind(this),2000)" style="padding:7px 14px;background:linear-gradient(135deg,#F172A1,#7d5fa0);color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer">📋 Скопировать ссылку</button>';
+  html+='</div>';
+
 
   html+='<p class="sect">1. Текущий сценарий</p>';
   html+='<div class="cc" style="margin-bottom:10px"><div class="la">Ячейка №'+scenCell+'</div><div class="va" style="color:'+scenEn.co+'">'+NM[scenCell]+'</div><div class="da">Значение: <b>'+scenVal+'</b> · '+scenEn.la+' — '+scenEn.de+'</div><div class="da" style="margin-top:4px;color:#9880b0">'+DESC[scenCell]+'</div></div>';
@@ -528,7 +541,7 @@ function go(){
 
   // 16. Ключевые годы — ТАБЛИЦА
   html+='<p class="sect">16. От 0 до 126 лет</p>';
-  html+='<div style="font-size:12px;color:#a896bc;margin-bottom:8px">⭐ — топ-5 лет &nbsp;·&nbsp; ← текущий год &nbsp;·&nbsp; Формула: base('+base+') + возраст − 42</div>';
+  html+='<div style="font-size:12px;color:#a896bc;margin-bottom:8px">⭐ — топ-5 лет &nbsp;·&nbsp; ← текущий год</div>';
   html+='<div class="key-years" style="max-height:400px;overflow-y:auto;border-radius:10px;border:1px solid #d5c8e4"><table class="ky-table">';
   html+='<thead style="position:sticky;top:0;background:#e4daf0;z-index:1"><tr><th>Год</th><th>Возраст</th><th>Активная ячейка</th><th>Сценарий</th><th>Число в ячейке</th><th>Уровень энергии</th><th>Ключевой</th></tr></thead><tbody>';
   tableRows.forEach(function(r){
@@ -567,11 +580,11 @@ function go(){
   // --- ГОДОВОЙ ПРОГНОЗ ---
   var ageNow=calcAge(yyyy,mm,dd,cy,cm);
   html+='<p class="sect">Годовой прогноз</p>';
-  html+='<div style="font-size:12px;color:#a896bc;margin-bottom:10px">Возраст: <b style="color:#7d5fa0">'+ageNow+' лет</b> · Формула: base('+base+') + возраст → номер ячейки → значение в ней</div>';
+  html+='<div style="font-size:12px;color:#a896bc;margin-bottom:10px">Возраст: <b style="color:#7d5fa0">'+ageNow+' лет</b></div>';
   html+='<div class="pg">';
   [cy,cy+1,cy+2,cy+3].forEach(function(yr){
     var cellN=pY(base,yyyy,mm,dd,yr);
-    var cellV=vals[cellN]; // значение В ячейке!
+    var cellV=vals[cellN];
     var yEn=ge(cellV);
     var age=calcAge(yyyy,mm,dd,yr,6);
     html+='<div class="pb"><div class="pt">'+yr+' год ('+age+' лет)</div>';
@@ -582,15 +595,16 @@ function go(){
 
   // --- МЕСЯЧНЫЙ ПРОГНОЗ ---
   html+='<p class="sect">Месячный прогноз — '+cy+'</p>';
-  html+='<div style="font-size:12px;color:#a896bc;margin-bottom:10px">Формула: base('+base+') + возраст + номер месяца → номер ячейки → значение в ней</div>';
   html+='<div class="mg">';
   for(var mo=1;mo<=12;mo++){
     var cellN=pM(base,yyyy,mm,dd,cy,mo);
-    var cellV=vals[cellN]; // значение В ячейке!
+    var cellV=vals[cellN];
     var mEn=ge(cellV);
     var isCur=(mo===cm);
     html+='<div class="mb'+(isCur?' cur':'')+'\" style=\"background:'+mEn.co+'22;border-color:'+mEn.co+(isCur?';border-width:2px':'')+'\"><div class=\"mn\" style=\"color:'+mEn.co+'\">'+MO_NAMES[mo-1]+'</div>';
-    html+='<div class="mv" style="color:#fff">яч.'+cellN+'<br><span style="color:'+mEn.co+'">'+cellV+'</span></div>';
+    html+='<div style="font-size:12px;font-weight:700;color:#7a6490">яч.'+cellN+'</div>';
+    html+='<div style="font-size:16px;font-weight:800;color:'+mEn.co+'">'+cellV+'</div>';
+    html+='<div style="font-size:9px;color:#7a6490;line-height:1.2;margin-top:1px">'+NM[cellN]+'</div>';
     html+='<div class="ml" style="color:'+mEn.co+'">'+mEn.la+'</div></div>';
   }
   html+='</div>';
@@ -687,6 +701,16 @@ function calcCompat(){
   document.getElementById('compat-out').innerHTML=html2;
   document.getElementById('compat-out').scrollIntoView({behavior:'smooth',block:'start'});
   buildPyramid(vC,0,document.getElementById('cpyr'));
+}
+
+function copyClientUrl(url){
+  navigator.clipboard.writeText(url).then(function(){
+    var btn=event.target;
+    btn.textContent='✅ Скопировано!';
+    setTimeout(function(){btn.textContent='📋 Скопировать';},2000);
+  }).catch(function(){
+    prompt('Скопируйте ссылку:',url);
+  });
 }
 </script>
 </body>
