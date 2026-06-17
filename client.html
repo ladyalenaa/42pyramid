@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Ваша Пирамида 42 — Леди Алёна</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f7f3f8;color:#3d2b55;min-height:100vh;padding:20px 16px 50px}
+.app{max-width:740px;margin:0 auto}
+.brand{text-align:center;margin-bottom:6px;font-size:11px;color:#a896bc;letter-spacing:2px;text-transform:uppercase}
+h1{text-align:center;font-size:clamp(20px,5vw,28px);font-weight:700;color:#7d5fa0;margin-bottom:6px}
+.sub{text-align:center;font-size:20px;font-weight:800;color:#5c3d7a;margin-bottom:6px}
+.client-name{text-align:center;font-size:16px;color:#a0607a;font-weight:600;margin-bottom:20px}
+.loading{text-align:center;padding:60px 20px;color:#7a6490;font-size:16px}
+.error{text-align:center;padding:40px;color:#c05050;background:#fff0f0;border-radius:12px;border:1px solid #f0c8c8}
+.pw{display:flex;justify-content:center;margin-bottom:20px;overflow-x:auto;padding:8px;background:#ede6f2;border-radius:14px;border:1px solid #d5c8e4}
+.pyr{display:flex;flex-direction:column;align-items:center;gap:3px}
+.pr{display:flex;gap:3px}
+.cl{width:clamp(38px,10vw,54px);height:clamp(36px,9vw,50px);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s;position:relative}
+.cl:hover{transform:scale(1.12);z-index:10}
+.cl.bh{box-shadow:0 0 0 3px #a0607a,0 0 16px rgba(160,96,122,.5);z-index:3;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px #a0607a,0 0 16px rgba(160,96,122,.5)}50%{box-shadow:0 0 0 3px #a0607a,0 0 26px rgba(160,96,122,.7)}}
+.cl .cn{font-size:clamp(8px,2vw,10px);font-weight:600;opacity:.8;line-height:1;color:#fff}
+.cl .dv{width:22px;height:1px;margin:2px 0;background:rgba(255,255,255,.4)}
+.cl .cv{font-size:clamp(12px,3vw,16px);font-weight:800;color:#fff;line-height:1}
+.sect{font-size:15px;font-weight:600;color:#7d5fa0;margin:20px 0 10px;border-left:3px solid #F172A1;padding-left:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
+.cc{background:#ede6f2;border-radius:10px;padding:12px 14px;border:1px solid #d5c8e4}
+.cc .la{font-size:11px;color:#a896bc;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.cc .va{font-size:22px;font-weight:700;color:#7d5fa0}
+.cc .da{font-size:12px;color:#7a6490;margin-top:3px;line-height:1.4}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.tag{background:#e4daf0;color:#7d5fa0;border-radius:6px;padding:4px 10px;font-size:12px;line-height:1.4;border:1px solid #cebfe0}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.pb{background:#ede6f2;border-radius:10px;padding:14px;border:1px solid #d5c8e4}
+.pb .pt{font-size:12px;color:#a896bc;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.pb .pv{font-size:17px;font-weight:700;line-height:1.3}
+.pb .pd{font-size:12px;color:#7a6490;margin-top:3px;line-height:1.4}
+.mg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
+.mb{border-radius:10px;padding:10px 8px;text-align:center;border:1px solid transparent;background:#ede6f2}
+.mb .mn{font-size:11px;font-weight:600;margin-bottom:3px}
+.mb.cur{border-width:2px;background:#e4daf0}
+.lg{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px}
+.li{display:flex;align-items:center;gap:5px;font-size:12px;color:#7a6490}
+.ld{width:12px;height:12px;border-radius:3px}
+.tp{position:fixed;background:#fff;color:#3d2b55;border-radius:10px;padding:10px 14px;font-size:12px;pointer-events:none;z-index:9999;max-width:220px;display:none;line-height:1.6;border:1px solid #d5c8e4;box-shadow:0 4px 20px rgba(125,95,160,.2)}
+.aura-dot{width:60px;height:60px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;margin:6px 0}
+.diag-row{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.diag-bar{display:flex;align-items:center;gap:10px;font-size:12px}
+.diag-bar .db-name{width:110px;color:#7a6490;flex-shrink:0}
+.diag-bar .db-track{flex:1;height:10px;background:#e4daf0;border-radius:5px;overflow:hidden}
+.diag-bar .db-fill{height:100%;border-radius:5px}
+.diag-bar .db-val{width:30px;text-align:right;font-weight:600;color:#7d5fa0}
+.key-years{margin-bottom:12px}
+.ky-table{width:100%;border-collapse:collapse;font-size:13px}
+.ky-table th{padding:7px 10px;color:#a896bc;font-weight:500;text-align:left;border-bottom:1px solid #d5c8e4;font-size:12px;background:#e4daf0;text-transform:uppercase;letter-spacing:.4px}
+.ky-table td{padding:7px 10px;border-bottom:1px solid #e4daf0;color:#3d2b55}
+.ky-table tr:hover td{background:#f0eaf6}
+.ky-table .star{color:#a0607a}
+.footer-note{text-align:center;margin-top:30px;padding:16px;background:#ede6f2;border-radius:12px;font-size:13px;color:#7a6490}
+.footer-note a{color:#F172A1;text-decoration:none;font-weight:600}
+@media(max-width:600px){
+  .grid2,.grid3,.pg{grid-template-columns:1fr}
+  .mg{grid-template-columns:repeat(3,1fr)}
+  .diag-bar .db-name{width:80px;font-size:11px}
+  body{padding:12px 10px 40px}
+  .pyr{min-width:360px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="brand">Авторская система самопознания · Леди Алёна</div>
+  <h1>🔺 Пирамида 42</h1>
+  <p class="sub">✨ Ваша персональная карта ✨</p>
+  <div class="client-name" id="clientName"></div>
+  <div id="main"><div class="loading">✨ Загружаем вашу пирамиду...</div></div>
+</div>
+<div class="tp" id="tp"></div>
+
+<script>
+var MO_NAMES=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+
+var LV=[
+  {nums:[1,2,3,4,9,5,6,7,8],  ch:'Муладхара',   co:'#c42020',aura:'красный'},
+  {nums:[10,11,12,13,14,15,16,17],ch:'Свадхистхана',co:'#c05010',aura:'оранжевый'},
+  {nums:[18,19,20,24,21,22,23],ch:'Манипура',    co:'#b88008',aura:'жёлтый'},
+  {nums:[25,26,27,28,29,30],   ch:'Анахата',     co:'#1e6e0e',aura:'зелёный'},
+  {nums:[31,32,35,33,34],      ch:'Вишуддха',    co:'#0e80a8',aura:'голубой'},
+  {nums:[36,37,38,39],         ch:'Аджна',       co:'#1040a8',aura:'синий'},
+  {nums:[40,42,41],            ch:'Сахасрара',   co:'#5820a8',aura:'фиолетовый'}
+];
+var NM={1:'Жертва',2:'Тревожный',3:'Беглец',4:'Потерявший опору',5:'Заключённый в теле',6:'Бунтарь',7:'Охотник за ресурсами',8:'Воин',9:'Теневой лидер',10:'Эмоциональный хаос',11:'Зависимый',12:'Гедонист',13:'Манипулятор',14:'Игрок',15:'Творец в поиске',16:'Романтик',17:'Сексуальный гурман',18:'Перфекционист',19:'Рисковый предприниматель',20:'Трудоголик',21:'Честолюбец',22:'Карьерист',23:'Хранитель тайн',24:'Властный правитель',25:'Сомневающийся',26:'Спасатель',27:'Заботливый родитель',28:'Травмированный любовью',29:'Целитель',30:'Мастер любви',31:'Безмолвный мудрец',32:'Борец за правду',33:'Наставник',34:'Создатель смыслов',35:'Зеркало истины',36:'Интуитивный, но сбитый с толку',37:'Видящий, но не понимающий',38:'Теневой маг',39:'Проводник душ',40:'Отшельник',41:'Духовный наставник',42:'Источник'};
+var DESC={1:'Сила — чувствовать чужую боль',2:'Сила — предусмотрительность',3:'Сила — быстрая адаптация',4:'Сила — открытость к новому',5:'Сила — исцеление тела',6:'Сила — смелость и созидание',7:'Сила — находить ресурсы',8:'Сила — дисциплина и преданность',9:'Сила — влияние без давления',10:'Сила — эмоциональная глубина',11:'Сила — гармоничные отношения',12:'Сила — радоваться жизни',13:'Сила — понимание психологии',14:'Сила — лёгкость и свобода',15:'Сила — творческий потенциал',16:'Сила — любить и вдохновлять',17:'Сила — принятие своей природы',18:'Сила — качество и дисциплина',19:'Сила — смелость и предприимчивость',20:'Сила — выносливость',21:'Сила — амбиции и целеустремлённость',22:'Сила — профессионализм',23:'Сила — наблюдательность',24:'Сила — лидерство и организованность',25:'Сила — видеть разные стороны',26:'Сила — сострадание',27:'Сила — любовь и забота',28:'Сила — любовь к себе',29:'Сила — эмпатия',30:'Сила — безусловная любовь',31:'Сила — мудрость',32:'Сила — честность',33:'Сила — передавать знания',34:'Сила — вдохновение',35:'Сила — ясность и безупречность',36:'Сила — открытость прозрениям',37:'Сила — замечать знаки',38:'Сила — понимание энергий',39:'Сила — интуиция душ',40:'Сила — духовная глубина',41:'Сила — мудрость и смирение',42:'Сила — полнота и единство'};
+var LM={};
+var alpha='АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
+for(var i=0;i<alpha.length;i++){LM[alpha[i]]=i+1;LM[alpha[i].toLowerCase()]=i+1;}
+function sumStr(s){var r=0;for(var i=0;i<s.length;i++)r+=LM[s[i]]||0;while(r>42)r-=42;return Math.max(1,r);}
+function calcBase(dd,mm,yyyy,city,name){
+  var ds=String(dd)+String(mm)+String(yyyy),sd=0;
+  ds.split('').forEach(function(d){sd+=+d;});
+  var base=sd+sumStr(city.replace(/[^а-яёА-ЯЁ]/g,''))+sumStr(name.replace(/[^а-яёА-ЯЁ]/g,''));
+  while(base>42)base-=42;if(base<1)base=1;return base;
+}
+function cellVal(base,n){var v=(base*n)%42;return v===0?42:v;}
+var EN=[{r:[1,7],la:'Сон',co:'#c42020',de:'Блок, страх, низкая энергия'},{r:[8,14],la:'Пробуждение',co:'#c05010',de:'Начало движения'},{r:[15,21],la:'Активность',co:'#b88008',de:'Трансформация'},{r:[22,28],la:'Сила',co:'#1e6e0e',de:'Уверенность'},{r:[29,35],la:'Гармония',co:'#1040a8',de:'Почти суть'},{r:[36,42],la:'Суть',co:'#5820a8',de:'Максимальная проявленность'}];
+function ge(v){return EN.find(function(e){return v>=e.r[0]&&v<=e.r[1];})||EN[0];}
+var BANDS=[7,14,21,28,35,42];
+function bandIdx(v){var i=0;while(i<BANDS.length&&v>BANDS[i])i++;return Math.min(i,5);}
+var TBLS={finance:['Низкий','Средний','Хороший','Высокий','Очень высокий','Максимальный'],children:['0–1 ребёнок','1–2 детей','2–3 детей','3–4 детей','4–5 детей','5+ детей'],popular:['Незаметный','Узнаваемый в узком кругу','Популярный в своей сфере','Известный в городе/стране','Звезда','Мировая слава'],health:['Слабое','Среднее','Хорошее','Крепкое','Отличное','Высшее'],career:['Низкий потенциал','Растущий потенциал','Хороший потенциал','Высокий потенциал','Очень высокий потенциал','Выдающийся потенциал'],rel:['Сложные','Стабилизация','Гармоничные','Крепкие','Идеальные','Высшая гармония'],spirit:['Начало пути','Осознание','Активный рост','Близость к сути','Почти просветление','Просветление'],chakra:['Чакра заблокирована','Чакра начинает просыпаться','Чакра в процессе трансформации','Чакра в хорошем состоянии','Чакра в гармонии','Чакра полностью открыта'],energy:['Очень низкий уровень','Низкий уровень','Средний уровень','Высокий уровень','Очень высокий уровень','Максимальный уровень']};
+function gl(v,t){return TBLS[t][bandIdx(v)];}
+function calcAge(yyyy,mm,dd,yr,curMo){var age=yr-yyyy;if(curMo<mm||(curMo===mm&&new Date().getDate()<dd))age--;return Math.max(0,age);}
+function pY(base,yyyy,mm,dd,yr){var age=calcAge(yyyy,mm,dd,yr,new Date().getMonth()+1);var v=base+age-42;while(v>42)v-=42;if(v<1)v=1;return v;}
+function pM(base,yyyy,mm,dd,yr,mo){var age=calcAge(yyyy,mm,dd,yr,mo);var v=base+age+mo-42;while(v>42)v-=42;if(v<1)v=1;return v;}
+
+function addTip(cell,n,v){
+  cell.addEventListener('mouseenter',function(e){var t=document.getElementById('tp'),en=ge(v);t.style.display='block';t.innerHTML='<b style="color:#7d5fa0">'+n+'. '+NM[n]+'</b><br>Значение: <b style="color:#a0607a">'+v+'</b><br><span style="color:'+en.co+'">'+en.la+'</span><br><span style="color:#a896bc;font-size:11px">'+DESC[n]+'</span>';t.style.left=(e.clientX+16)+'px';t.style.top=(e.clientY-14)+'px';});
+  cell.addEventListener('mousemove',function(e){var t=document.getElementById('tp');t.style.left=(e.clientX+16)+'px';t.style.top=(e.clientY-14)+'px';});
+  cell.addEventListener('mouseleave',function(){document.getElementById('tp').style.display='none';});
+}
+
+function render(dd,mm,yyyy,city,name){
+  var base=calcBase(dd,mm,yyyy,city,name);
+  var vals={};for(var n=1;n<=42;n++)vals[n]=cellVal(base,n);
+
+  document.getElementById('clientName').textContent='Карта для: '+name+' · '+String(dd).padStart(2,'0')+'.'+String(mm).padStart(2,'0')+'.'+yyyy;
+
+  var html='';
+
+  // ЛЕГЕНДА
+  html+='<div class="lg">'+LV.map(function(l){return '<div class="li"><div class="ld" style="background:'+l.co+'"></div><span>'+l.ch+'</span></div>';}).join('')+'</div>';
+
+  // ПИРАМИДА
+  html+='<div class="pw"><div class="pyr" id="pyrEl"></div></div>';
+
+  function chakraVals(idx){return LV[idx].nums.map(function(n){return vals[n];});}
+  function chakraAvg(idx){var vs=chakraVals(idx);return Math.round(vs.reduce(function(a,b){return a+b;},0)/vs.length);}
+  function chakraMaxCell(idx,excl){var best=null,bestV=-1;LV[idx].nums.forEach(function(n){if(excl&&excl.indexOf(n)>=0)return;if(vals[n]>bestV||(vals[n]===bestV&&(best===null||n<best))){bestV=vals[n];best=n;}});return best;}
+
+  var sorted=Object.entries(vals).sort(function(a,b){return a[1]-b[1]||(+a[0])-(+b[0]);});
+  var pastMinVal=sorted[0][1];
+  var pastN=+sorted.filter(function(e){return e[1]===pastMinVal;}).sort(function(a,b){return +a[0]-(+b[0]);})[0][0];
+  var secondMinVal=sorted.map(function(e){return e[1];}).find(function(v){return v>pastMinVal;})||pastMinVal;
+  var karmaCell=+sorted.filter(function(e){return e[1]===secondMinVal;}).sort(function(a,b){return +a[0]-(+b[0]);})[0][0];
+
+  var finAvg=chakraAvg(2),kidsAvg=chakraAvg(1),popAvg=chakraAvg(4);
+  var pathToSrc=42-base;
+  var pathToSrcLabel=(pathToSrc===0)?'Уже в Источнике':(pathToSrc<=7)?'Очень близко':(pathToSrc<=14)?'Близко':(pathToSrc<=21)?'Средний путь':(pathToSrc<=28)?'Далеко':(pathToSrc<=35)?'Очень далеко':'Начало пути';
+  var healthVal=vals[5],careerVal=vals[18],relVal=vals[30];
+  var spiritCell=null,spiritMax=-1;for(var n=1;n<=41;n++){if(vals[n]>spiritMax||(vals[n]===spiritMax&&(spiritCell===null||n<spiritCell))){spiritMax=vals[n];spiritCell=n;}}
+  var avgs=LV.map(function(l,i){return chakraAvg(i);});
+  var maxAvg=Math.max.apply(null,avgs),auraIdx=avgs.indexOf(maxAvg),auraChakra=LV[auraIdx];
+  var energyVal=vals[base],histCell=chakraMaxCell(auraIdx,[42]);
+  var scenEn=ge(vals[base]);
+
+  function card(t,v,l,s){return '<div class="cc"><div class="la">'+t+'</div><div class="va">'+v+'</div><div class="da">'+l+(s?'<br>'+s:'')+'</div></div>';}
+
+  html+='<p class="sect">1. Ваш текущий сценарий</p>';
+  html+='<div class="cc" style="margin-bottom:10px"><div class="la">Ячейка №'+base+'</div><div class="va" style="color:'+scenEn.co+'">'+NM[base]+'</div><div class="da">Значение: <b>'+vals[base]+'</b> · '+scenEn.la+' — '+scenEn.de+'</div></div>';
+
+  html+='<p class="sect">2. Ваши таланты</p><div class="grid2" style="margin-bottom:10px">';
+  LV.map(function(l,i){var exclude=(i===6)?[42]:null;var mc=chakraMaxCell(i,exclude);return{cell:mc,val:vals[mc],chakra:l.ch};}).forEach(function(t){var en=ge(t.val);html+='<div class="cc"><div class="la">'+t.chakra+'</div><div class="va" style="color:'+en.co+'">'+t.val+'</div><div class="da">'+t.cell+'. '+NM[t.cell]+'</div></div>';});
+  html+='</div>';
+
+  html+='<p class="sect">Ключевые показатели</p><div class="grid2">';
+  html+=card('Финансы',finAvg,gl(finAvg,'finance'),'');
+  html+=card('Дети',kidsAvg,gl(kidsAvg,'children'),'');
+  html+=card('Популярность',popAvg,gl(popAvg,'popular'),'');
+  html+=card('Путь к Источнику',pathToSrc,pathToSrcLabel,'');
+  html+=card('Здоровье',healthVal,gl(healthVal,'health'),'');
+  html+=card('Карьера',careerVal,gl(careerVal,'career'),'');
+  html+=card('Отношения',relVal,gl(relVal,'rel'),'');
+  html+=card('Духовный рост',vals[spiritCell],gl(vals[spiritCell],'spirit'),'Ячейка №'+spiritCell);
+  html+='</div>';
+
+  html+='<p class="sect">Цвет ауры</p><div class="cc" style="margin-bottom:10px;display:flex;align-items:center;gap:16px"><div class="aura-dot" style="background:'+auraChakra.co+'">'+maxAvg+'</div><div><div style="font-size:18px;font-weight:700;color:'+auraChakra.co+'">'+auraChakra.aura.charAt(0).toUpperCase()+auraChakra.aura.slice(1)+'</div><div style="font-size:13px;color:#7a6490;margin-top:3px">'+auraChakra.ch+'</div></div></div>';
+
+  html+='<p class="sect">Кем были в прошлой жизни</p><div class="cc" style="margin-bottom:10px"><div class="va">'+NM[pastN]+'</div><div class="da">'+DESC[pastN]+'</div></div>';
+  html+='<p class="sect">Кармическая задача</p><div class="cc" style="margin-bottom:10px"><div class="va">'+NM[karmaCell]+'</div><div class="da">'+DESC[karmaCell]+'</div></div>';
+
+  // ГОДОВОЙ
+  var now=new Date(),cy=now.getFullYear(),cm=now.getMonth()+1;
+  var ageNow=calcAge(yyyy,mm,dd,cy,cm);
+  html+='<p class="sect">Годовой прогноз</p><div class="pg">';
+  [cy,cy+1,cy+2,cy+3].forEach(function(yr){
+    var cellN=pY(base,yyyy,mm,dd,yr),cellV=vals[cellN],yEn=ge(cellV),age=calcAge(yyyy,mm,dd,yr,6);
+    html+='<div class="pb"><div class="pt">'+yr+' ('+age+' лет)</div><div class="pv" style="color:'+yEn.co+'">яч.№'+cellN+' / '+cellV+'</div><div class="pd">'+NM[cellN]+'<br><span style="color:'+yEn.co+'">'+yEn.la+'</span></div></div>';
+  });
+  html+='</div>';
+
+  // МЕСЯЧНЫЙ
+  html+='<p class="sect">Месячный прогноз — '+cy+'</p><div class="mg">';
+  for(var mo=1;mo<=12;mo++){
+    var cellN=pM(base,yyyy,mm,dd,cy,mo),cellV=vals[cellN],mEn=ge(cellV),isCur=(mo===cm);
+    html+='<div class="mb'+(isCur?' cur':'')+'\" style=\"background:'+mEn.co+'22;border-color:'+mEn.co+(isCur?';border-width:2px':'')+'\"><div class=\"mn\" style=\"color:'+mEn.co+'\">'+MO_NAMES[mo-1]+'</div>';
+    html+='<div style="font-size:12px;font-weight:700;color:#7a6490">яч.'+cellN+'</div>';
+    html+='<div style="font-size:16px;font-weight:800;color:'+mEn.co+'">'+cellV+'</div>';
+    html+='<div style="font-size:9px;color:#7a6490;line-height:1.2;margin-top:1px">'+NM[cellN]+'</div>';
+    html+='<div style="font-size:10px;color:'+mEn.co+'">'+mEn.la+'</div></div>';
+  }
+  html+='</div>';
+
+  // ЭНЕРГОДИАГНОСТИКА
+  html+='<p class="sect">Энергодиагностика чакр</p><div class="diag-row">';
+  LV.map(function(l,i){return{name:l.ch,co:l.co,avg:chakraAvg(i)};}).forEach(function(d){
+    var pct=Math.round((d.avg/42)*100);
+    html+='<div class="diag-bar"><div class="db-name">'+d.name+'</div><div class="db-track"><div class="db-fill" style="width:'+pct+'%;background:'+d.co+'"></div></div><div class="db-val">'+d.avg+'</div></div>';
+    html+='<div style="font-size:11px;color:#a896bc;padding-left:120px;margin-top:-4px;margin-bottom:4px">'+gl(d.avg,'chakra')+'</div>';
+  });
+  html+='</div>';
+
+  html+='<div class="footer-note">Карта создана с любовью 💜<br>Больше расчётов и консультаций:<br><a href="https://ladyalenaa.github.io/42pyramid/">ladyalenaa.github.io/42pyramid</a></div>';
+
+  document.getElementById('main').innerHTML=html;
+
+  // Строим пирамиду
+  var pyrEl=document.getElementById('pyrEl');
+  LV.slice().reverse().forEach(function(level){
+    var row=document.createElement('div');row.className='pr';
+    level.nums.forEach(function(n){
+      var v=vals[n],cell=document.createElement('div');
+      cell.className='cl'+(n===base?' bh':'');
+      cell.style.background=level.co;
+      cell.innerHTML='<span class="cn">'+n+'</span><div class="dv"></div><span class="cv">'+v+'</span>';
+      addTip(cell,n,v);row.appendChild(cell);
+    });
+    pyrEl.appendChild(row);
+  });
+}
+
+// Читаем данные из URL
+window.addEventListener('load',function(){
+  try{
+    var params=new URLSearchParams(window.location.search);
+    var d=params.get('d');
+    if(!d)throw new Error('no data');
+    var json=decodeURIComponent(escape(atob(decodeURIComponent(d))));
+    var data=JSON.parse(json);
+    render(data.dd,data.mm,data.yyyy,data.city||'',data.name||'');
+  }catch(e){
+    document.getElementById('main').innerHTML='<div class="error">⚠️ Ссылка недействительна или повреждена.<br>Пожалуйста, попросите Леди Алёну прислать новую ссылку.</div>';
+  }
+});
+</script>
+</body>
+</html>
