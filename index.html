@@ -7,7 +7,7 @@
 <style>
 /*
   ПАЛИТРА (с фото):
-  --bg:       #fed7f5  — светло-сиреневый фон (почти белый с сиренью)
+  --bg:       #f7f3f8  — светло-сиреневый фон (почти белый с сиренью)
   --surface:  #ede6f2  — карточки, формы
   --surface2: #e4daf0  — чуть темнее, hover
   --border:   #d5c8e4  — бордюры
@@ -21,7 +21,7 @@
   --text3:    #a896bc  — третичный текст
 */
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',Arial,sans-serif;background:#fed7f5;color:#3d2b55;min-height:100vh;padding:20px 16px 50px}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f7f3f8;color:#3d2b55;min-height:100vh;padding:20px 16px 50px}
 .app{max-width:740px;margin:0 auto}
 .brand{text-align:center;margin-bottom:6px;font-size:11px;color:#a896bc;letter-spacing:2px;text-transform:uppercase}
 h1{text-align:center;font-size:clamp(22px,5vw,30px);font-weight:700;color:#7d5fa0;margin-bottom:6px;letter-spacing:1px}
@@ -32,7 +32,7 @@ h1{text-align:center;font-size:clamp(22px,5vw,30px);font-weight:700;color:#7d5fa
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .ff{grid-column:1/-1}
 .fg label,.compat-person label{font-size:12px;color:#7a6490;display:block;margin-bottom:5px}
-input[type=text],select{width:100%;padding:10px 12px;background:#fed7f5;border:1px solid #c8b8dc;border-radius:8px;color:#3d2b55;font-size:14px;transition:border-color .2s}
+input[type=text],select{width:100%;padding:10px 12px;background:#f7f3f8;border:1px solid #c8b8dc;border-radius:8px;color:#3d2b55;font-size:14px;transition:border-color .2s}
 input[type=text]:focus,select:focus{outline:none;border-color:#F172A1;box-shadow:0 0 0 3px rgba(155,126,189,.15)}
 select option{background:#ede6f2;color:#3d2b55}
 .btn{width:100%;padding:12px;background:linear-gradient(135deg,#F172A1,#7d5fa0);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-top:4px;letter-spacing:.5px;transition:all .2s;box-shadow:0 3px 12px rgba(125,95,160,.3)}
@@ -113,7 +113,7 @@ select option{background:#ede6f2;color:#3d2b55}
 
 /* СОВМЕСТИМОСТЬ */
 .compat-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.compat-person{background:#fed7f5;border-radius:10px;padding:14px;border:1px solid #d5c8e4}
+.compat-person{background:#f7f3f8;border-radius:10px;padding:14px;border:1px solid #d5c8e4}
 .compat-person h4{font-size:13px;color:#7d5fa0;font-weight:600;margin-bottom:8px}
 .compat-person select,.compat-person input{font-size:13px;padding:8px 10px}
 .compat-section{background:#ede6f2;border-radius:10px;padding:14px;border:1px solid #d5c8e4;margin-bottom:10px}
@@ -265,10 +265,10 @@ function fillDateSelects(prefix){
 // === ДАННЫЕ ===
 var LV=[
   {nums:[1,2,3,4,9,5,6,7,8],  ch:'Муладхара',    co:'#c42020',aura:'красный'},
-  {nums:[10,11,12,13,14,15,16,17],ch:'Свадхистана',co:'#c05010',aura:'оранжевый'},
+  {nums:[10,11,12,13,14,15,16,17],ch:'Свадхистхана',co:'#c05010',aura:'оранжевый'},
   {nums:[18,19,20,24,21,22,23],ch:'Манипура',     co:'#b88008',aura:'жёлтый'},
   {nums:[25,26,27,28,29,30],   ch:'Анахата',      co:'#1e6e0e',aura:'зелёный'},
-  {nums:[31,32,35,33,34],      ch:'Вишудха',     co:'#0e80a8',aura:'голубой'},
+  {nums:[31,32,35,33,34],      ch:'Вишуддха',     co:'#0e80a8',aura:'голубой'},
   {nums:[36,37,38,39],         ch:'Аджна',        co:'#1040a8',aura:'синий'},
   {nums:[40,42,41],            ch:'Сахасрара',    co:'#5820a8',aura:'фиолетовый'}
 ];
