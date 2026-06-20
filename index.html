@@ -506,9 +506,10 @@ function renderCompat(vA,vB,NMx,ddA,mmA,yyyyA,ddB,mmB,yyyyB,pyrId){
     h+='<div style="font-size:11px;color:#a896bc;padding-left:112px;margin-top:-3px;margin-bottom:4px">'+gl(d.avg,'chakra')+'</div>';});
   h+='</div></div>';
 
-  // Базовое число пары = среднее двух базовых
-  var bPair=Math.round((vA._base+vB._base)/2);
-  if(bPair<1)bPair=1;if(bPair>42)bPair=42;
+  // Базовое число пары = Базовое А + Базовое Б, коррекция до диапазона 1-42
+var bPair = vA._base + vB._base;   // ← складываем два базовых
+while (bPair > 42) bPair -= 42;    // ← вычитаем 42 пока > 42
+if (bPair < 1) bPair = 1;          // ← если < 1, берём ячейку №1
 
   function pairAge(yr){
     var now=new Date();
