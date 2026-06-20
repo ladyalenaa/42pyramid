@@ -128,8 +128,8 @@ select option{background:#ede6f2}
             <select id="p1_year"></select>
           </div>
         </div>
-        <div><label>Город рождения</label><input type="text" id="p1_city" placeholder="Минск"></div>
-        <div><label>Имя</label><input type="text" id="p1_name" placeholder="Алёна"></div>
+        <div><label>Город рождения</label><input type="text" id="p1_city" placeholder=" "></div>
+        <div><label>Имя</label><input type="text" id="p1_name" placeholder=" "></div>
         <div class="ff"><button class="btn" onclick="goPersonal()">✨ Рассчитать пирамиду</button></div>
       </div>
     </div>
@@ -189,8 +189,8 @@ select option{background:#ede6f2}
             <select id="p3_year"></select>
           </div>
         </div>
-        <div><label>Город рождения</label><input type="text" id="p3_city" placeholder="Минск"></div>
-        <div><label>Имя</label><input type="text" id="p3_name" placeholder="Алёна"></div>
+        <div><label>Город рождения</label><input type="text" id="p3_city" placeholder=" "></div>
+        <div><label>Имя</label><input type="text" id="p3_name" placeholder=" "></div>
         <div class="ff"><button class="btn btn-z" onclick="goZumer()">🔥 Рассчитать зумерскую пирамиду</button></div>
       </div>
     </div>
@@ -472,7 +472,7 @@ function renderPyramid(vals,base,dd,mm,yyyy,name,NMx){
 }
 
 // ==================== РЕНДЕР СОВМЕСТИМОСТИ ====================
-function renderCompat(vA,vB,NMx,ddA,mmA,yyyyA,ddB,mmB,yyyyB){
+function renderCompat(vA,vB,NMx,ddA,mmA,yyyyA,ddB,mmB,yyyyB,pyrId){
   var vC={};
   for(var n=1;n<=42;n++){var sv=vA[n]+vB[n];while(sv>42)sv-=42;if(sv===0)sv=42;vC[n]=sv;}
   function lavg(nums){return Math.round(nums.reduce(function(a,n){return a+vC[n];},0)/nums.length);}
@@ -485,7 +485,8 @@ function renderCompat(vA,vB,NMx,ddA,mmA,yyyyA,ddB,mmB,yyyyB){
   var cChakraAvgs=LV.map(function(l){return{ch:l.ch,co:l.co,avg:lavg(l.nums)};});
   function cs(t,v,l){return '<div class="compat-section"><h4>'+t+'</h4><div style="font-size:18px;font-weight:700;color:#7d5fa0">'+v+'</div><div style="font-size:12px;color:#7a6490;margin-top:4px">'+l+'</div></div>';}
   var kidsC=lavg(LV[1].nums),sexC=Math.round((vC[12]+vC[17])/2),relC=vC[30],finC=lavg(LV[2].nums);
-  var h='<div class="pw"><div class="pyr" id="compat_pyr"></div></div><div class="grid2">';
+  pyrId=pyrId||'compat_pyr';
+  var h='<div class="pw"><div class="pyr" id="'+pyrId+'"></div></div><div class="grid2">';
   h+=cs('🎯 Цель встречи',NMx[meetCell],'Ячейка №'+meetCell+' · Значение: '+vC[meetCell]);
   h+=cs('🤝 Совместный путь',NMx[pathCell],'Ячейка №'+pathCell+' · Значение: '+vC[pathCell]);
   h+=cs('👶 Дети пары',kidsC,gl(kidsC,'children'));
@@ -648,10 +649,10 @@ function goCompat(){
   var vA={},vB={};
   for(var n=1;n<=42;n++){vA[n]=cellVal(bA,n);vB[n]=cellVal(bB,n);}
   vA._base=bA;vB._base=bB;
-  var result=renderCompat(vA,vB,NM,ddA,mmA,yyyyA,ddB,mmB,yyyyB);
+  var result=renderCompat(vA,vB,NM,ddA,mmA,yyyyA,ddB,mmB,yyyyB,'p2_compat_pyr');
   document.getElementById('p2_out').innerHTML='<p class="sect" style="margin-top:0">Пирамида совместимости</p><div style="font-size:13px;color:#7a6490;margin-bottom:10px">Партнёр 1: <b style="color:#7d5fa0">'+bA+'</b> · Партнёр 2: <b style="color:#7d5fa0">'+bB+'</b></div>'+result.html;
   document.getElementById('p2_out').scrollIntoView({behavior:'smooth',block:'start'});
-  drawPyramid(document.getElementById('compat_pyr'),result.vC,0,NM);
+  setTimeout(function(){drawPyramid(document.getElementById('p2_compat_pyr'),result.vC,0,NM);},0);
 }
 
 function goZumerCompat(){
@@ -664,10 +665,10 @@ function goZumerCompat(){
   var vA={},vB={};
   for(var n=1;n<=42;n++){vA[n]=cellVal(bA,n);vB[n]=cellVal(bB,n);}
   vA._base=bA;vB._base=bB;
-  var result=renderCompat(vA,vB,NM_Z,ddA,mmA,yyyyA,ddB,mmB,yyyyB);
+  var result=renderCompat(vA,vB,NM_Z,ddA,mmA,yyyyA,ddB,mmB,yyyyB,'p4_compat_pyr');
   document.getElementById('p4_out').innerHTML='<p class="sect" style="margin-top:0">🔥 Зумерская пирамида совместимости</p><div style="font-size:13px;color:#7a6490;margin-bottom:10px">Партнёр 1: <b style="color:#7d5fa0">'+bA+'</b> · Партнёр 2: <b style="color:#7d5fa0">'+bB+'</b></div>'+result.html;
   document.getElementById('p4_out').scrollIntoView({behavior:'smooth',block:'start'});
-  drawPyramid(document.getElementById('compat_pyr'),result.vC,0,NM_Z);
+  setTimeout(function(){drawPyramid(document.getElementById('p4_compat_pyr'),result.vC,0,NM_Z);},0);
 }
 </script>
 </body>
