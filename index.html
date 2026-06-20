@@ -104,7 +104,7 @@ select option{background:#ede6f2}
 <body>
 <div class="app">
   <div class="brand">Авторская система самопознания</div>
-  <h1> Пирамида 42</h1>
+  <h1>🔺 Пирамида 42</h1>
   <p class="sub">✨ Персональная карта Леди Алёны ✨</p>
 
   <div class="tab-wrap">
@@ -128,8 +128,8 @@ select option{background:#ede6f2}
             <select id="p1_year"></select>
           </div>
         </div>
-        <div><label>Город рождения</label><input type="text" id="p1_city" placeholder=" "></div>
-        <div><label>Имя</label><input type="text" id="p1_name" placeholder=" "></div>
+        <div><label>Город рождения</label><input type="text" id="p1_city" placeholder="Минск"></div>
+        <div><label>Имя</label><input type="text" id="p1_name" placeholder="Алёна"></div>
         <div class="ff"><button class="btn" onclick="goPersonal()">✨ Рассчитать пирамиду</button></div>
       </div>
     </div>
@@ -189,8 +189,8 @@ select option{background:#ede6f2}
             <select id="p3_year"></select>
           </div>
         </div>
-        <div><label>Город рождения</label><input type="text" id="p3_city" placeholder=" "></div>
-        <div><label>Имя</label><input type="text" id="p3_name" placeholder=" "></div>
+        <div><label>Город рождения</label><input type="text" id="p3_city" placeholder="Минск"></div>
+        <div><label>Имя</label><input type="text" id="p3_name" placeholder="Алёна"></div>
         <div class="ff"><button class="btn btn-z" onclick="goZumer()">🔥 Рассчитать зумерскую пирамиду</button></div>
       </div>
     </div>
@@ -472,7 +472,7 @@ function renderPyramid(vals,base,dd,mm,yyyy,name,NMx){
 }
 
 // ==================== РЕНДЕР СОВМЕСТИМОСТИ ====================
-function renderCompat(vA,vB,NMx){
+function renderCompat(vA,vB,NMx,ddA,mmA,yyyyA,ddB,mmB,yyyyB){
   var vC={};
   for(var n=1;n<=42;n++){var sv=vA[n]+vB[n];while(sv>42)sv-=42;if(sv===0)sv=42;vC[n]=sv;}
   function lavg(nums){return Math.round(nums.reduce(function(a,n){return a+vC[n];},0)/nums.length);}
@@ -504,6 +504,71 @@ function renderCompat(vA,vB,NMx){
     h+='<div class="diag-bar"><div class="db-name">'+d.ch+'</div><div class="db-track"><div class="db-fill" style="width:'+pct+'%;background:'+d.co+'"></div></div><div class="db-val">'+d.avg+'</div></div>';
     h+='<div style="font-size:11px;color:#a896bc;padding-left:112px;margin-top:-3px;margin-bottom:4px">'+gl(d.avg,'chakra')+'</div>';});
   h+='</div></div>';
+
+  // Базовое число пары = среднее двух базовых
+  var bPair=Math.round((vA._base+vB._base)/2);
+  if(bPair<1)bPair=1;if(bPair>42)bPair=42;
+
+  function pairAge(yr){
+    var now=new Date();
+    var ageA=yr-yyyyA;var ageB=yr-yyyyB;
+    return Math.round((ageA+ageB)/2);
+  }
+  function pYPair(yr){
+    var age=pairAge(yr);
+    var v=bPair+age-42;while(v>42)v-=42;if(v<1)v=1;return v;
+  }
+  function pMPair(yr,mo){
+    var age=pairAge(yr);
+    var v=bPair+age+mo-42;while(v>42)v-=42;if(v<1)v=1;return v;
+  }
+
+  // Таблица 0-126 лет пары
+  var now=new Date(),cy=now.getFullYear(),cm=now.getMonth()+1;
+  var pairStartYear=Math.max(yyyyA,yyyyB); // от рождения младшего
+  var topValsP=[],rowsP=[];
+  for(var a0=0;a0<=126;a0++){
+    var yr2=pairStartYear+a0,cN2=pYPair(yr2),cV2=vC[cN2],enP2=ge(cV2);
+    rowsP.push({yr:yr2,age:a0,cell:cN2,val:cV2,en:enP2,isCur:(yr2===cy)});
+    topValsP.push(cV2);
+  }
+  topValsP.sort(function(a,b){return b-a;});
+  var thrP=topValsP[4]||0;
+  rowsP.forEach(function(r){r.isKey=r.val>=thrP;});
+
+  h+='<p class="sect">📅 Годовой прогноз пары</p>';
+  h+='<div style="font-size:12px;color:#a896bc;margin-bottom:8px">Базовое число пары: <b style="color:#7d5fa0">'+bPair+'</b> &nbsp;·&nbsp; ⭐ топ-5 лет &nbsp;·&nbsp; ← текущий год</div>';
+  h+='<div class="pg">';
+  [cy,cy+1,cy+2,cy+3].forEach(function(yr){
+    var cN=pYPair(yr),cV=vC[cN],yEn=ge(cV),age=pairAge(yr);
+    h+='<div class="pb"><div class="pt">'+yr+' (ср.возраст '+age+')</div><div class="pv" style="color:'+yEn.co+'">яч.№'+cN+' / '+cV+'</div><div class="pd">'+NMx[cN]+'<br><span style="color:'+yEn.co+'">'+yEn.la+' — '+yEn.de+'</span></div></div>';
+  });
+  h+='</div>';
+
+  h+='<div style="max-height:360px;overflow-y:auto;border-radius:10px;border:1px solid #d5c8e4;margin-bottom:16px"><table class="ky-table"><thead style="position:sticky;top:0;background:#e4daf0;z-index:1"><tr><th>Год</th><th>Ср.возраст</th><th>Ячейка</th><th>Сценарий</th><th>Число</th><th>Энергия</th><th>⭐</th></tr></thead><tbody>';
+  rowsP.forEach(function(r){
+    h+='<tr style="'+(r.isCur?'background:rgba(160,96,122,.08)':r.isKey?'background:rgba(155,126,189,.1)':'')+'">';
+    h+='<td style="font-weight:600;color:'+(r.isCur?'#a0607a':r.isKey?'#7d5fa0':'#3d2b55')+'">'+r.yr+(r.isCur?' ←':'')+'</td>';
+    h+='<td>'+r.age+'</td><td style="color:#7d5fa0">№'+r.cell+'</td>';
+    h+='<td style="font-size:11px">'+NMx[r.cell]+'</td>';
+    h+='<td style="font-weight:700;color:'+r.en.co+'">'+r.val+'</td>';
+    h+='<td style="font-size:11px;color:'+r.en.co+'">'+r.en.la+'</td>';
+    h+='<td class="star">'+(r.isKey?'⭐':'')+'</td></tr>';
+  });
+  h+='</tbody></table></div>';
+
+  h+='<p class="sect">📅 Месячный прогноз пары — '+cy+'</p>';
+  h+='<div class="mg">';
+  for(var mo=1;mo<=12;mo++){
+    var cN=pMPair(cy,mo),cV=vC[cN],mEn=ge(cV),isCur=(mo===cm);
+    h+='<div class="mb'+(isCur?' cur':'')+'" style="background:'+mEn.co+'22;border-color:'+mEn.co+(isCur?';border-width:2px':'')+'"><div class="mn" style="color:'+mEn.co+'">'+MO[mo-1]+'</div>';
+    h+='<div style="font-size:12px;font-weight:700;color:#7a6490">яч.'+cN+'</div>';
+    h+='<div style="font-size:16px;font-weight:800;color:'+mEn.co+'">'+cV+'</div>';
+    h+='<div style="font-size:9px;color:#7a6490;line-height:1.2;margin-top:1px">'+NMx[cN]+'</div>';
+    h+='<div style="font-size:10px;color:'+mEn.co+'">'+mEn.la+'</div></div>';
+  }
+  h+='</div>';
+
   return{html:h,vC:vC};
 }
 
@@ -582,8 +647,9 @@ function goCompat(){
   var bA=calcBase(ddA,mmA,yyyyA,cA,nA).base,bB=calcBase(ddB,mmB,yyyyB,cB,nB).base;
   var vA={},vB={};
   for(var n=1;n<=42;n++){vA[n]=cellVal(bA,n);vB[n]=cellVal(bB,n);}
-  var result=renderCompat(vA,vB,NM);
-  document.getElementById('p2_out').innerHTML='<p class="sect" style="margin-top:0">Пирамида совместимости</p><div style="font-size:13px;color:#7a6490;margin-bottom:10px">Базовое А: <b style="color:#7d5fa0">'+bA+'</b> · Базовое Б: <b style="color:#7d5fa0">'+bB+'</b></div>'+result.html;
+  vA._base=bA;vB._base=bB;
+  var result=renderCompat(vA,vB,NM,ddA,mmA,yyyyA,ddB,mmB,yyyyB);
+  document.getElementById('p2_out').innerHTML='<p class="sect" style="margin-top:0">Пирамида совместимости</p><div style="font-size:13px;color:#7a6490;margin-bottom:10px">Партнёр 1: <b style="color:#7d5fa0">'+bA+'</b> · Партнёр 2: <b style="color:#7d5fa0">'+bB+'</b></div>'+result.html;
   document.getElementById('p2_out').scrollIntoView({behavior:'smooth',block:'start'});
   drawPyramid(document.getElementById('compat_pyr'),result.vC,0,NM);
 }
@@ -597,8 +663,9 @@ function goZumerCompat(){
   var bA=calcBase(ddA,mmA,yyyyA,cA,nA).base,bB=calcBase(ddB,mmB,yyyyB,cB,nB).base;
   var vA={},vB={};
   for(var n=1;n<=42;n++){vA[n]=cellVal(bA,n);vB[n]=cellVal(bB,n);}
-  var result=renderCompat(vA,vB,NM_Z);
-  document.getElementById('p4_out').innerHTML='<p class="sect" style="margin-top:0">🔥 Зумерская пирамида совместимости</p><div style="font-size:13px;color:#7a6490;margin-bottom:10px">Базовое А: <b style="color:#7d5fa0">'+bA+'</b> · Базовое Б: <b style="color:#7d5fa0">'+bB+'</b></div>'+result.html;
+  vA._base=bA;vB._base=bB;
+  var result=renderCompat(vA,vB,NM_Z,ddA,mmA,yyyyA,ddB,mmB,yyyyB);
+  document.getElementById('p4_out').innerHTML='<p class="sect" style="margin-top:0">🔥 Зумерская пирамида совместимости</p><div style="font-size:13px;color:#7a6490;margin-bottom:10px">Партнёр 1: <b style="color:#7d5fa0">'+bA+'</b> · Партнёр 2: <b style="color:#7d5fa0">'+bB+'</b></div>'+result.html;
   document.getElementById('p4_out').scrollIntoView({behavior:'smooth',block:'start'});
   drawPyramid(document.getElementById('compat_pyr'),result.vC,0,NM_Z);
 }
