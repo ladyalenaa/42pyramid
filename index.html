@@ -104,7 +104,7 @@ select option{background:#ede6f2}
 <body>
 <div class="app">
   <div class="brand">Авторская система самопознания</div>
-  <h1> Пирамида 42</h1>
+  <h1>Пирамида 42</h1>
   <p class="sub">✨ Персональная карта Леди Алёны ✨</p>
 
   <div class="tab-wrap">
@@ -475,6 +475,21 @@ function renderPyramid(vals,base,dd,mm,yyyy,name,NMx){
 function renderCompat(vA,vB,NMx,ddA,mmA,yyyyA,ddB,mmB,yyyyB,pyrId){
   var vC={};
   for(var n=1;n<=42;n++){var sv=vA[n]+vB[n];while(sv>42)sv-=42;if(sv===0)sv=42;vC[n]=sv;}
+
+  // Базовое число пары — сразу наверху, используется везде
+  var bPair=vA._base+vB._base;
+  while(bPair>42)bPair-=42;
+  if(bPair<1)bPair=1;
+
+  // Текущий сценарий = название ячейки, номер которой = bPair
+  var scenPairVal=vC[bPair];
+  var scenPairEn=ge(scenPairVal);
+  var scenPairName=NMx[bPair];
+
+  // Путь к Источнику = 42 - bPair
+  var pathPair=42-bPair;
+  var pathPairLabel=(pathPair===0)?'Уже в Источнике':(pathPair<=7)?'Очень близко':(pathPair<=14)?'Близко':(pathPair<=21)?'Средний путь':(pathPair<=28)?'Далеко':(pathPair<=35)?'Очень далеко':'Начало пути';
+
   function lavg(nums){return Math.round(nums.reduce(function(a,n){return a+vC[n];},0)/nums.length);}
   var meetCell=null,meetMax=-1;
   for(var n=1;n<=41;n++){if(vC[n]>meetMax||(vC[n]===meetMax&&(meetCell===null||n<meetCell))){meetMax=vC[n];meetCell=n;}}
@@ -486,7 +501,10 @@ function renderCompat(vA,vB,NMx,ddA,mmA,yyyyA,ddB,mmB,yyyyB,pyrId){
   function cs(t,v,l){return '<div class="compat-section"><h4>'+t+'</h4><div style="font-size:18px;font-weight:700;color:#7d5fa0">'+v+'</div><div style="font-size:12px;color:#7a6490;margin-top:4px">'+l+'</div></div>';}
   var kidsC=lavg(LV[1].nums),sexC=Math.round((vC[12]+vC[17])/2),relC=vC[30],finC=lavg(LV[2].nums);
   pyrId=pyrId||'compat_pyr';
+
   var h='<div class="pw"><div class="pyr" id="'+pyrId+'"></div></div><div class="grid2">';
+  h+=cs('🔮 Текущий сценарий пары',scenPairName,'Ячейка №'+bPair+' · Значение: '+scenPairVal+' · '+scenPairEn.la);
+  h+=cs('🌟 Путь к Источнику',pathPair,pathPairLabel);
   h+=cs('🎯 Цель встречи',NMx[meetCell],'Ячейка №'+meetCell+' · Значение: '+vC[meetCell]);
   h+=cs('🤝 Совместный путь',NMx[pathCell],'Ячейка №'+pathCell+' · Значение: '+vC[pathCell]);
   h+=cs('👶 Дети пары',kidsC,gl(kidsC,'children'));
@@ -506,14 +524,13 @@ function renderCompat(vA,vB,NMx,ddA,mmA,yyyyA,ddB,mmB,yyyyB,pyrId){
     h+='<div style="font-size:11px;color:#a896bc;padding-left:112px;margin-top:-3px;margin-bottom:4px">'+gl(d.avg,'chakra')+'</div>';});
   h+='</div></div>';
 
-  // Базовое число пары = Базовое А + Базовое Б, коррекция до диапазона 1-42
-var bPair = vA._base + vB._base;   // ← складываем два базовых
-while (bPair > 42) bPair -= 42;    // ← вычитаем 42 пока > 42
-if (bPair < 1) bPair = 1;          // ← если < 1, берём ячейку №1
+  // Базовое число пары уже рассчитано выше (bPair)
 
   function pairAge(yr){
-    var now=new Date();
-    var ageA=yr-yyyyA;var ageB=yr-yyyyB;
+    // Реальный возраст каждого с учётом месяца и дня рождения
+    var curMo=new Date().getMonth()+1;
+    var ageA=calcAge(yyyyA,mmA,ddA,yr,curMo);
+    var ageB=calcAge(yyyyB,mmB,ddB,yr,curMo);
     return Math.round((ageA+ageB)/2);
   }
   function pYPair(yr){
